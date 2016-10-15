@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     pagedtextedit.cpp \
-    book.cpp
+    book.cpp \
+    bookbuilder.cpp
 
 HEADERS  += mainwindow.h \
     pagedtextedit.h \
-    book.h
+    book.h \
+    bookbuilder.h
 
 FORMS    += mainwindow.ui
 

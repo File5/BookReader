@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/text">
+        <file>lorem_ipsum.txt</file>
+    </qresource>
+</RCC>

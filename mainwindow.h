@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "pagedtextedit.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    PagedTextEdit *bookView;
+
+private slots:
+    void displayPageNumber(int current, int lastPage);
 };
 
 #endif // MAINWINDOW_H

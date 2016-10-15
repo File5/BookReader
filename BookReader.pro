@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    pagedtextedit.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    pagedtextedit.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    testdata.qrc

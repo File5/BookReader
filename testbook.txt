@@ -1,0 +1,7 @@
+[BookInfo]
+[Title]
+Book title
+[Author]
+Author
+[Chapter]
+Book text goes here...

@@ -1,5 +1,7 @@
 #include "bookbuilder.h"
 
+#include <cctype>
+
 BookBuilder::BookBuilder(const QString &data) :
     pos(0)
 {
@@ -12,18 +14,25 @@ BookBuilder::~BookBuilder()
     delete data;
 }
 
+void BookBuilder::readBook()
+{
+    while (pos < len) {
+        procCmd();
+    }
+}
+
 void BookBuilder::readBookInfo()
 {
     for (int i = 0; i < 3; i++) {
         string cmd = readCmd();
-        if (cmd == "title") {
+        if (cmd == "Title") {
             title = readValue();
-        } else if (cmd == "author") {
+        } else if (cmd == "Author") {
             author = readValue();
-        } else if (cmd == "annotation") {
+        } else if (cmd == "Annotation") {
             annotation = readValue();
         } else {
-            pos -= cmd.length() + 2;
+            unreadCmd();
             break;
         }
     }
@@ -53,7 +62,23 @@ void BookBuilder::procCmd()
 
 string BookBuilder::readCmd()
 {
-    return readToChar(']');
+    prevPos = pos;
+    while (pos < len && isspace(data->at(pos))) {
+        pos++;
+    }
+    if (pos < len && data->at(pos) == '[') {
+        pos++;
+    }
+    string res = readToChar(']', true);
+    while (pos < len && isspace(data->at(pos))) {
+        pos++;
+    }
+    return res;
+}
+
+void BookBuilder::unreadCmd()
+{
+    pos = prevPos;
 }
 
 string BookBuilder::readValue()
@@ -61,14 +86,14 @@ string BookBuilder::readValue()
     return readToChar('[');
 }
 
-string BookBuilder::readToChar(char c)
+string BookBuilder::readToChar(char c, bool inc)
 {
     char cur = '\0';
     string res;
-    while (cur != c || pos < len) {
+    while (cur != c && pos < len) {
         cur = data->at(pos++);
         if (cur == c) {
-            pos++;
+            if (!inc) pos--;
             break;
         }
         res.push_back(cur);

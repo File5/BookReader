@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/text">
         <file>lorem_ipsum.txt</file>
+        <file>testbook.txt</file>
     </qresource>
 </RCC>

@@ -12,6 +12,7 @@ class BookBuilder
 public:
     BookBuilder(const QString& data);
     ~BookBuilder();
+    void readBook();
 
 private:
     void readBookInfo();
@@ -20,11 +21,13 @@ private:
 
     void procCmd();
     string readCmd();
+    void unreadCmd();
     string readValue();
-    string readToChar(char c);
+    string readToChar(char c, bool inc = false);
 
     string *data;
     int pos;
+    int prevPos;
     int len;
 
     list<string*> chapters;

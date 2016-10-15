@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
-#include "book.h"
+#include "bookbuilder.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -49,10 +49,11 @@ void MainWindow::displayPageNumber(int current, int lastPage)
 
 void MainWindow::testBook()
 {
-    QFile text(":/text/lorem_ipsum.txt");
-    Book book(text, this);
-    QSizeF size = bookView->document()->pageSize();
-    book.setPageSize(size);
-    book.setFont(QFont("Times New Roman", 16));
-    qDebug() << book.getPageCount(0);
+    QFile text(":/text/testbook.txt");
+    text.open(QIODevice::ReadOnly);
+    QString data(text.readAll());
+    text.close();
+
+    BookBuilder bookBuilder(data);
+    bookBuilder.readBook();
 }

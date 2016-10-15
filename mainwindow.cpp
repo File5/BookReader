@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+#include "book.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QFile text(":/text/lorem_ipsum.txt");
     text.open(QIODevice::ReadOnly);
     QByteArray data = text.readAll();
+    text.close();
     QString string(data);
     bookView->setText(string);
 }
@@ -24,6 +28,12 @@ MainWindow::~MainWindow()
 {
     delete bookView;
     delete ui;
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    QMainWindow::showEvent(event);
+    testBook();
 }
 
 void MainWindow::displayPageNumber(int current, int lastPage)
@@ -35,4 +45,14 @@ void MainWindow::displayPageNumber(int current, int lastPage)
 
     ui->nextButton->setEnabled(current != lastPage);
     ui->prevButton->setEnabled(current != 1);
+}
+
+void MainWindow::testBook()
+{
+    QFile text(":/text/lorem_ipsum.txt");
+    Book book(text, this);
+    QSizeF size = bookView->document()->pageSize();
+    book.setPageSize(size);
+    book.setFont(QFont("Times New Roman", 16));
+    qDebug() << book.getPageCount(0);
 }

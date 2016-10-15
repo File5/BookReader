@@ -74,23 +74,28 @@ const QString &Book::getChapterTitle(int index) const
     return chapterTitles->at(index);
 }
 
+int Book::getChapterCount() const
+{
+    return chapters->size();
+}
+
 int Book::getPageCount(int chapterIndex) const
 {
     return pageCount->at(chapterIndex);
 }
 
-void Book::setPageSize(const QSize &newSize)
+void Book::setPageSize(QSizeF newSize)
 {
-    if (newSize != *currentSize) {
-        currentSize = &newSize;
+    if (newSize != currentSize) {
+        currentSize = newSize;
         calcPageCount();
     }
 }
 
-void Book::setFont(const QFont &newFont)
+void Book::setFont(const QFont& newFont)
 {
-    if (newFont != *currentFont) {
-        currentFont = &newFont;
+    if (newFont != currentFont) {
+        currentFont = newFont;
         calcPageCount();
     }
 }
@@ -108,20 +113,20 @@ void Book::allocMemory()
 
 void Book::parseData(const QString &data)
 {
-    Q_UNUSED(data);
-    // TODO data parsing
+    *chapters << data;
 }
 
 void Book::calcPageCount()
 {
     QTextDocument *doc = new QTextDocument(this);
-    doc->setPageSize(*currentSize);
-    doc->setDefaultFont(*currentFont);
+    doc->setPageSize(currentSize);
+    doc->setDefaultFont(currentFont);
     pageCount->clear();
 
     foreach (const QString &chapter, *chapters) {
         doc->setPlainText(chapter);
-        pageCount->append(doc->pageCount());
+        int p = doc->pageCount();
+        pageCount->append(p);
     }
 
     delete doc;

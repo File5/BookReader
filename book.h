@@ -25,11 +25,12 @@ public:
 
     const QString& getChapter(int index) const;
     const QString& getChapterTitle(int index) const;
+    int getChapterCount() const;
     int getPageCount(int chapterIndex) const;
 
 public slots:
-    void setPageSize(const QSize& newSize);
-    void setFont(const QFont& newFont);
+    void setPageSize(QSizeF newSize);
+    void setFont(const QFont &newFont);
 
 private:
     void allocMemory();
@@ -44,8 +45,8 @@ private:
     QList<QString> *chapterTitles;
     QList<int> *pageCount;
 
-    const QSize *currentSize;
-    const QFont *currentFont;
+    QSizeF currentSize;
+    QFont currentFont;
 };
 
 #endif // BOOK_H

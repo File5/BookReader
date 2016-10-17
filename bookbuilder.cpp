@@ -14,11 +14,19 @@ BookBuilder::~BookBuilder()
     delete data;
 }
 
-void BookBuilder::readBook()
+Book *BookBuilder::readBook()
 {
+    Book *book = new Book();
     while (pos < len) {
         procCmd();
     }
+    book->title->append(title.c_str());
+    book->author->append(author.c_str());
+    book->annotation->append(annotation.c_str());
+    for (string *chapter : chapters) {
+        book->chapters->append(QString(chapter->c_str()));
+    }
+    return book;
 }
 
 void BookBuilder::readBookInfo()

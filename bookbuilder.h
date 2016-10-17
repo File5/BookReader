@@ -5,6 +5,8 @@
 #include <string>
 #include <list>
 
+#include "book.h"
+
 using namespace std;
 
 class BookBuilder
@@ -12,7 +14,7 @@ class BookBuilder
 public:
     BookBuilder(const QString& data);
     ~BookBuilder();
-    void readBook();
+    Book* readBook();
 
 private:
     void readBookInfo();

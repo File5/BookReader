@@ -7,6 +7,8 @@
 #include <QSize>
 #include <QFont>
 
+class BookBuilder;
+
 class Book : public QObject
 {
     Q_OBJECT
@@ -33,6 +35,8 @@ public slots:
     void setFont(const QFont &newFont);
 
 private:
+    explicit Book(QObject *parent = 0);
+
     void allocMemory();
     void parseData(const QString &data);
     void calcPageCount();
@@ -47,6 +51,8 @@ private:
 
     QSizeF currentSize;
     QFont currentFont;
+
+    friend class BookBuilder;
 };
 
 #endif // BOOK_H

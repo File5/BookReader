@@ -100,6 +100,12 @@ void Book::setFont(const QFont& newFont)
     }
 }
 
+Book::Book(QObject *parent) :
+    QObject(parent)
+{
+    allocMemory();
+}
+
 void Book::allocMemory()
 {
     title = new QString();

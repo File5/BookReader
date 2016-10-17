@@ -5,15 +5,18 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    currentFont("Times New Roman", 16),
+    currentChapterIndex(0),
+    previousPages(0),
+    pagesCount(0)
 {
     ui->setupUi(this);
     bookView = new PagedTextEdit(this);
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
     ui->bookView->hide();
-
-    bookView->setFont(QFont("Times New Roman", 16));
+    bookView->setFont(currentFont);
 
     QFile text(":/text/testbook.txt");
     text.open(QIODevice::ReadOnly);
@@ -21,9 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     text.close();
 
     bookBuilder.setData(data);
-    currentBook = bookBuilder.readBook();
 
-    bookView->setText(currentBook->getChapter(0));
+    currentBook = bookBuilder.readBook();
 }
 
 MainWindow::~MainWindow()
@@ -36,17 +38,54 @@ MainWindow::~MainWindow()
 void MainWindow::showEvent(QShowEvent *event)
 {
     QMainWindow::showEvent(event);
+    currentBook->setPageSize(bookView->document()->pageSize());
+    currentBook->setFont(currentFont);
+
+    pagesCount = currentBook->getPageCount();
+
+    selectChapter(0);
+    displayChaptersList();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    currentBook->setPageSize(bookView->document()->pageSize());
 }
 
 void MainWindow::displayPageNumber(int current, int lastPage)
 {
-    QString currentPageText = QString("Страница: %1/%2").arg(QString::number(current), QString::number(lastPage));
-    ui->currentPageLabel->setText(currentPageText);
+    if (currentBook) {
+        current += previousPages;
+        lastPage = pagesCount;
 
-    ui->pageSpinBox->setMaximum(lastPage);
+        QString currentPageText = QString("Страница: %1/%2").arg(QString::number(current), QString::number(lastPage));
+        ui->currentPageLabel->setText(currentPageText);
 
-    ui->nextButton->setEnabled(current != lastPage);
-    ui->prevButton->setEnabled(current != 1);
+        ui->pageSpinBox->setMaximum(lastPage);
+
+        ui->nextButton->setEnabled(current != lastPage);
+        ui->prevButton->setEnabled(current != 1);
+    }
+}
+
+void MainWindow::displayChaptersList()
+{
+    if (currentBook) {
+        for (int i = 0; i < currentBook->getChapterCount(); i++) {
+            ui->chapterList->addItem(currentBook->getChapterTitle(i));
+        }
+    }
+}
+
+void MainWindow::selectChapter(int index)
+{
+    if (currentBook && index < currentBook->getChapterCount()) {
+        currentChapterIndex = index;
+        previousPages = currentBook->getCurrentPage(0, index);
+
+        bookView->setText(currentBook->getChapter(index));
+    }
 }
 
 void MainWindow::on_actionBookInfo_triggered()

@@ -29,6 +29,8 @@ public:
     const QString& getChapterTitle(int index) const;
     int getChapterCount() const;
     int getPageCount(int chapterIndex) const;
+    int getPageCount() const;
+    int getCurrentPage(int page, int chapterIndex);
 
 public slots:
     void setPageSize(QSizeF newSize);

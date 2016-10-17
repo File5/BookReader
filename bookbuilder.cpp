@@ -35,8 +35,10 @@ Book *BookBuilder::readBook()
     book->title->append(title.c_str());
     book->author->append(author.c_str());
     book->annotation->append(annotation.c_str());
+    int i = 1;
     for (string *chapter : chapters) {
         book->chapters->append(QString(chapter->c_str()));
+        book->chapterTitles->append(QString("Chapter %1").arg(QString::number(i++)));
     }
     return book;
 }

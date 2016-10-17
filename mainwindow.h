@@ -20,15 +20,25 @@ public:
 
 protected:
     virtual void showEvent(QShowEvent * event);
+    virtual void resizeEvent(QResizeEvent * event);
 
 private:
+    void loadBook(QFile file);
+
     Ui::MainWindow *ui;
     PagedTextEdit *bookView;
+    QFont currentFont;
     Book *currentBook;
+    int currentChapterIndex;
+    int previousPages;
+    int pagesCount;
     BookBuilder bookBuilder;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
+    void displayChaptersList();
+    void selectChapter(int index);
+
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
 };

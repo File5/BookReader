@@ -84,6 +84,24 @@ int Book::getPageCount(int chapterIndex) const
     return pageCount->at(chapterIndex);
 }
 
+int Book::getPageCount() const
+{
+    int len = 0;
+    for (int i = 0; i < getChapterCount(); i++) {
+        len += getPageCount(i);
+    }
+    return len;
+}
+
+int Book::getCurrentPage(int page, int chapterIndex)
+{
+    int len = 0;
+    for (int i = 0; i < getChapterCount() && i < chapterIndex; i++) {
+        len += getPageCount(i);
+    }
+    return len + page;
+}
+
 void Book::setPageSize(QSizeF newSize)
 {
     if (newSize != currentSize) {

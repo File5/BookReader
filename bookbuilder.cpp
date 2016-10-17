@@ -47,7 +47,12 @@ void BookBuilder::setData(const QString &data)
 {
     this->data = new string(data.toStdString());
     len = this->data->length();
+    prevPos = 0;
     pos = 0;
+    chapters.clear();
+    title.clear();
+    author.clear();
+    annotation.clear();
 }
 
 void BookBuilder::readBookInfo()

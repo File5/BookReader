@@ -23,7 +23,7 @@ protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 private:
-    void loadBook(QFile file);
+    void loadBook(QString filename);
 
     Ui::MainWindow *ui;
     PagedTextEdit *bookView;
@@ -41,6 +41,7 @@ private slots:
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
+    void on_actionOpen_triggered();
     void on_chapterList_clicked(const QModelIndex &index);
     void on_prevButton_clicked();
     void on_nextButton_clicked();

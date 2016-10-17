@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
-#include <QScrollBar>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,14 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->bookView->hide();
     bookView->setFont(currentFont);
 
-    QFile text(":/text/testbook.txt");
-    text.open(QIODevice::ReadOnly);
-    QString data(text.readAll());
-    text.close();
-
-    bookBuilder.setData(data);
-
-    currentBook = bookBuilder.readBook();
+    currentBook = 0;
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +32,37 @@ MainWindow::~MainWindow()
 void MainWindow::showEvent(QShowEvent *event)
 {
     QMainWindow::showEvent(event);
+
+    loadBook(QString(":/text/testbook.txt"));
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+
+    if (currentBook) {
+        currentBook->setPageSize(bookView->document()->pageSize());
+
+        pagesCount = currentBook->getPageCount();
+
+        displayPageNumber(bookView->getPage(), bookView->getLastPage());
+    }
+}
+
+void MainWindow::loadBook(QString filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QString data(file.readAll());
+    file.close();
+
+    bookBuilder.setData(data);
+
+    if (currentBook) {
+        delete currentBook;
+    }
+    currentBook = bookBuilder.readBook();
+
     currentBook->setPageSize(bookView->document()->pageSize());
     currentBook->setFont(currentFont);
 
@@ -46,14 +70,6 @@ void MainWindow::showEvent(QShowEvent *event)
 
     displayChaptersList();
     selectChapter(0);
-}
-
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-    QMainWindow::resizeEvent(event);
-    currentBook->setPageSize(bookView->document()->pageSize());
-
-    pagesCount = currentBook->getPageCount();
 }
 
 void MainWindow::displayPageNumber(int current, int lastPage)
@@ -74,6 +90,7 @@ void MainWindow::displayPageNumber(int current, int lastPage)
 
 void MainWindow::displayChaptersList()
 {
+    ui->chapterList->clear();
     if (currentBook) {
         for (int i = 0; i < currentBook->getChapterCount(); i++) {
             ui->chapterList->addItem(currentBook->getChapterTitle(i));
@@ -110,6 +127,12 @@ void MainWindow::on_actionBookInfo_triggered()
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::exit();
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this);
+    loadBook(filename);
 }
 
 void MainWindow::on_chapterList_clicked(const QModelIndex &index)

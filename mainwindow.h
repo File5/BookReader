@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "pagedtextedit.h"
+#include "book.h"
+#include "bookbuilder.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,10 +24,13 @@ protected:
 private:
     Ui::MainWindow *ui;
     PagedTextEdit *bookView;
+    Book *currentBook;
+    BookBuilder bookBuilder;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
-    void testBook();
+    void on_actionBookInfo_triggered();
+    void on_actionExit_triggered();
 };
 
 #endif // MAINWINDOW_H

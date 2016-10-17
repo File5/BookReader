@@ -2,6 +2,14 @@
 
 #include <cctype>
 
+BookBuilder::BookBuilder() :
+    data(0),
+    pos(0),
+    len(0)
+{
+
+}
+
 BookBuilder::BookBuilder(const QString &data) :
     pos(0)
 {
@@ -16,6 +24,10 @@ BookBuilder::~BookBuilder()
 
 Book *BookBuilder::readBook()
 {
+    if (data == 0) {
+        return 0;
+    }
+
     Book *book = new Book();
     while (pos < len) {
         procCmd();
@@ -27,6 +39,13 @@ Book *BookBuilder::readBook()
         book->chapters->append(QString(chapter->c_str()));
     }
     return book;
+}
+
+void BookBuilder::setData(const QString &data)
+{
+    this->data = new string(data.toStdString());
+    len = this->data->length();
+    pos = 0;
 }
 
 void BookBuilder::readBookInfo()

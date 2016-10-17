@@ -12,9 +12,11 @@ using namespace std;
 class BookBuilder
 {
 public:
+    BookBuilder();
     BookBuilder(const QString& data);
     ~BookBuilder();
     Book* readBook();
+    void setData(const QString& data);
 
 private:
     void readBookInfo();

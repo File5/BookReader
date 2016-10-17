@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
-#include "bookbuilder.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,16 +15,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bookView->setFont(QFont("Times New Roman", 16));
 
-    QFile text(":/text/lorem_ipsum.txt");
+    QFile text(":/text/testbook.txt");
     text.open(QIODevice::ReadOnly);
-    QByteArray data = text.readAll();
+    QString data(text.readAll());
     text.close();
-    QString string(data);
-    bookView->setText(string);
+
+    bookBuilder.setData(data);
+    currentBook = bookBuilder.readBook();
+
+    bookView->setText(currentBook->getChapter(0));
 }
 
 MainWindow::~MainWindow()
 {
+    delete currentBook;
     delete bookView;
     delete ui;
 }
@@ -33,7 +36,6 @@ MainWindow::~MainWindow()
 void MainWindow::showEvent(QShowEvent *event)
 {
     QMainWindow::showEvent(event);
-    testBook();
 }
 
 void MainWindow::displayPageNumber(int current, int lastPage)
@@ -47,13 +49,20 @@ void MainWindow::displayPageNumber(int current, int lastPage)
     ui->prevButton->setEnabled(current != 1);
 }
 
-void MainWindow::testBook()
+void MainWindow::on_actionBookInfo_triggered()
 {
-    QFile text(":/text/testbook.txt");
-    text.open(QIODevice::ReadOnly);
-    QString data(text.readAll());
-    text.close();
+    if (currentBook) {
+        QString text;
+        text.append("Title: ");
+        text.append(currentBook->getTitle());
+        text.append("Author: ");
+        text.append(currentBook->getAuthor());
+        text.append(currentBook->getAnnotation());
+        QMessageBox::information(this, "Информация о книге", text);
+    }
+}
 
-    BookBuilder bookBuilder(data);
-    bookBuilder.readBook();
+void MainWindow::on_actionExit_triggered()
+{
+    QApplication::exit();
 }

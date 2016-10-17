@@ -142,3 +142,12 @@ void MainWindow::on_nextButton_clicked()
         bookView->setPage(bookView->getPage() + 1);
     }
 }
+
+void MainWindow::on_goToButton_clicked()
+{
+    int page = ui->pageSpinBox->value();
+    int newChapter = currentBook->getChapterIndex(page);
+    int newPage = page - currentBook->getCurrentPage(0, newChapter);
+    selectChapter(newChapter);
+    bookView->setPage(newPage);
+}

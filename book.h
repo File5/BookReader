@@ -27,6 +27,7 @@ public:
 
     const QString& getChapter(int index) const;
     const QString& getChapterTitle(int index) const;
+    int getChapterIndex(int pageNo) const;
     int getChapterCount() const;
     int getPageCount(int chapterIndex) const;
     int getPageCount() const;

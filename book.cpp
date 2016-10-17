@@ -74,6 +74,19 @@ const QString &Book::getChapterTitle(int index) const
     return chapterTitles->at(index);
 }
 
+int Book::getChapterIndex(int pageNo) const
+{
+    int len = 0;
+    for (int i = 0; i < getChapterCount(); i++) {
+        int currentPageCount = getPageCount(i);
+        if (len + currentPageCount >= pageNo) {
+            return i;
+        }
+        len += currentPageCount;
+    }
+    return getChapterCount() - 1;
+}
+
 int Book::getChapterCount() const
 {
     return chapters->size();

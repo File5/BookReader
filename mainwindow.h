@@ -44,6 +44,7 @@ private slots:
     void on_chapterList_clicked(const QModelIndex &index);
     void on_prevButton_clicked();
     void on_nextButton_clicked();
+    void on_goToButton_clicked();
 };
 
 #endif // MAINWINDOW_H

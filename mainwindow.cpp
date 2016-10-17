@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -43,14 +44,16 @@ void MainWindow::showEvent(QShowEvent *event)
 
     pagesCount = currentBook->getPageCount();
 
-    selectChapter(0);
     displayChaptersList();
+    selectChapter(0);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
     currentBook->setPageSize(bookView->document()->pageSize());
+
+    pagesCount = currentBook->getPageCount();
 }
 
 void MainWindow::displayPageNumber(int current, int lastPage)
@@ -85,6 +88,9 @@ void MainWindow::selectChapter(int index)
         previousPages = currentBook->getCurrentPage(0, index);
 
         bookView->setText(currentBook->getChapter(index));
+        if (index < ui->chapterList->count()) {
+            ui->chapterList->item(index)->setSelected(true);
+        }
     }
 }
 
@@ -104,4 +110,35 @@ void MainWindow::on_actionBookInfo_triggered()
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::exit();
+}
+
+void MainWindow::on_chapterList_clicked(const QModelIndex &index)
+{
+    selectChapter(index.row());
+}
+
+void MainWindow::on_prevButton_clicked()
+{
+    if (bookView->getPage() == 1) {
+        if (currentChapterIndex > 0) {
+            int newChapter = currentChapterIndex - 1;
+            selectChapter(newChapter);
+            bookView->setPage(currentBook->getPageCount(newChapter));
+        }
+    } else {
+        bookView->setPage(bookView->getPage() - 1);
+    }
+}
+
+void MainWindow::on_nextButton_clicked()
+{
+    if (bookView->getPage() == bookView->getLastPage()) {
+        if (currentChapterIndex - 1 < currentBook->getChapterCount()) {
+            int newChapter = currentChapterIndex + 1;
+            selectChapter(newChapter);
+            bookView->setPage(1);
+        }
+    } else {
+        bookView->setPage(bookView->getPage() + 1);
+    }
 }

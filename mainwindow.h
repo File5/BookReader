@@ -41,6 +41,9 @@ private slots:
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
+    void on_chapterList_clicked(const QModelIndex &index);
+    void on_prevButton_clicked();
+    void on_nextButton_clicked();
 };
 
 #endif // MAINWINDOW_H

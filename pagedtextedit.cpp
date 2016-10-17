@@ -12,6 +12,32 @@ PagedTextEdit::PagedTextEdit(QWidget *parent) :
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, &PagedTextEdit::onScrolled);
 }
 
+int PagedTextEdit::getPage()
+{
+    QTextDocument *doc = document();
+    int pageHeight = doc->pageSize().height();
+    int pos = verticalScrollBar()->value();
+
+    return pos / pageHeight + 1;
+}
+
+void PagedTextEdit::setPage(int page)
+{
+    QTextDocument *doc = document();
+    int pageHeight = doc->pageSize().height();
+
+    verticalScrollBar()->setValue(pageHeight * (page - 1));
+}
+
+int PagedTextEdit::getLastPage()
+{
+    QTextDocument *doc = document();
+    int pageHeight = doc->pageSize().height();
+    int documentHeight = pageHeight * (doc->pageCount() - 1);
+
+    return documentHeight / pageHeight + 1;
+}
+
 void PagedTextEdit::resizeEvent(QResizeEvent *event)
 {
     document()->setPageSize(event->size());

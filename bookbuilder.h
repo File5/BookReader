@@ -38,6 +38,7 @@ private:
     string title;
     string author;
     string annotation;
+    list<Bookmark> bookmarks;
 };
 
 #endif // BOOKBUILDER_H

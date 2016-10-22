@@ -40,6 +40,9 @@ Book *BookBuilder::readBook()
         book->chapters->append(QString(chapter->c_str()));
         book->chapterTitles->append(QString("Chapter %1").arg(QString::number(i++)));
     }
+    for (Bookmark bookmark : bookmarks) {
+        book->bookmarks->append(bookmark);
+    }
     return book;
 }
 
@@ -79,7 +82,34 @@ void BookBuilder::readChapter()
 
 void BookBuilder::readBookmarks()
 {
-    // TODO bookmarks
+    string str = readValue();
+    int chapterIndex = 0, pos = 0;
+    bool chapter = true;
+    for (int i = 0; i < str.length(); i++) {
+        char c = str[i];
+        switch (c) {
+        case ':':
+            chapter = false;
+            break;
+        case ';':
+            bookmarks.push_back(Bookmark(chapterIndex, pos));
+            chapterIndex = 0;
+            pos = 0;
+            chapter = true;
+            break;
+        default:
+            if ('0' <= c && c <= '9') {
+                if (chapter) {
+                    chapterIndex *= 10;
+                    chapterIndex += (c - '0');
+                } else {
+                    pos *= 10;
+                    pos += (c - '0');
+                }
+            }
+            break;
+        }
+    }
 }
 
 void BookBuilder::procCmd()

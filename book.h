@@ -9,6 +9,8 @@
 
 class BookBuilder;
 
+struct Bookmark;
+
 class Book : public QObject
 {
     Q_OBJECT
@@ -51,11 +53,25 @@ private:
     QList<QString> *chapters;
     QList<QString> *chapterTitles;
     QList<int> *pageCount;
+    QList<Bookmark> *bookmarks;
 
     QSizeF currentSize;
     QFont currentFont;
 
     friend class BookBuilder;
+};
+
+struct Bookmark {
+    int chapterIndex;
+    int pos;
+
+    Bookmark() :
+        chapterIndex(0),
+        pos(0) {}
+
+    Bookmark(int chapterIndex, int pos) :
+        chapterIndex(chapterIndex),
+        pos(pos) {}
 };
 
 #endif // BOOK_H

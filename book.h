@@ -29,8 +29,10 @@ public:
 
     const QString& getChapter(int index) const;
     const QString& getChapterTitle(int index) const;
+    const Bookmark getBookmark(int index) const;
     int getChapterIndex(int pageNo) const;
     int getChapterCount() const;
+    int getBookmarkCount() const;
     int getPageCount(int chapterIndex) const;
     int getPageCount() const;
     int getCurrentPage(int page, int chapterIndex);

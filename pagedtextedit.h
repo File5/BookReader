@@ -13,6 +13,7 @@ public:
     int getPage();
     void setPage(int page);
     int getLastPage();
+    void goToPos(int pos);
 
 signals:
     void pageChanged(int currentPage, int lastPage);
@@ -21,7 +22,7 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private slots:
-    void updateScrollPos();
+    void updateScrollPos(double docPos);
     void updateScrollBar(int min, int max);
     void onScrolled(int pos);
 };

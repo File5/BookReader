@@ -69,7 +69,12 @@ void MainWindow::loadBook(QString filename)
     pagesCount = currentBook->getPageCount();
 
     displayChaptersList();
-    selectChapter(0);
+
+    if (currentBook->getBookmarkCount() > 0) {
+        goToBookmark(currentBook->getBookmark(0));
+    } else {
+        selectChapter(0);
+    }
 }
 
 void MainWindow::displayPageNumber(int current, int lastPage)
@@ -109,6 +114,12 @@ void MainWindow::selectChapter(int index)
             ui->chapterList->item(index)->setSelected(true);
         }
     }
+}
+
+void MainWindow::goToBookmark(Bookmark bookmark)
+{
+    selectChapter(bookmark.chapterIndex);
+    bookView->goToPos(bookmark.pos);
 }
 
 void MainWindow::on_actionBookInfo_triggered()

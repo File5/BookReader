@@ -38,6 +38,7 @@ private slots:
     void displayPageNumber(int current, int lastPage);
     void displayChaptersList();
     void selectChapter(int index);
+    void goToBookmark(Bookmark bookmark);
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();

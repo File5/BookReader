@@ -75,6 +75,11 @@ const QString &Book::getChapterTitle(int index) const
     return chapterTitles->at(index);
 }
 
+const Bookmark Book::getBookmark(int index) const
+{
+    return bookmarks->at(index);
+}
+
 int Book::getChapterIndex(int pageNo) const
 {
     int len = 0;
@@ -91,6 +96,11 @@ int Book::getChapterIndex(int pageNo) const
 int Book::getChapterCount() const
 {
     return chapters->size();
+}
+
+int Book::getBookmarkCount() const
+{
+    return bookmarks->size();
 }
 
 int Book::getPageCount(int chapterIndex) const

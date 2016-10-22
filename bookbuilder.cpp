@@ -48,6 +48,9 @@ Book *BookBuilder::readBook()
 
 void BookBuilder::setData(const QString &data)
 {
+    if (this->data) {
+        delete this->data;
+    }
     this->data = new string(data.toStdString());
     len = this->data->length();
     prevPos = 0;
@@ -56,6 +59,7 @@ void BookBuilder::setData(const QString &data)
     title.clear();
     author.clear();
     annotation.clear();
+    bookmarks.clear();
 }
 
 void BookBuilder::readBookInfo()

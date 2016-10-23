@@ -77,6 +77,11 @@ void MainWindow::loadBook(QString filename)
     }
 }
 
+void MainWindow::saveBook(QString filename)
+{
+    BookBuilder::writeBook(currentBook, filename);
+}
+
 void MainWindow::displayPageNumber(int current, int lastPage)
 {
     if (currentBook) {
@@ -144,6 +149,12 @@ void MainWindow::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this);
     loadBook(filename);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(this);
+    saveBook(filename);
 }
 
 void MainWindow::on_chapterList_clicked(const QModelIndex &index)

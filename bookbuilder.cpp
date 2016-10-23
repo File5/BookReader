@@ -1,6 +1,33 @@
 #include "bookbuilder.h"
 
 #include <cctype>
+#include <fstream>
+
+void BookBuilder::writeBook(Book *book, const QString filename)
+{
+    ofstream fout(filename.toStdString());
+    fout << "[BookInfo]" << endl;
+
+    fout << "[Title]" << endl;
+    fout << book->title->toStdString();
+    fout << "[Author]" << endl;
+    fout << book->author->toStdString();
+    fout << "[Annotation]" << endl;
+    fout << book->annotation->toStdString();
+
+    foreach (QString chapter, *book->chapters) {
+        fout << "[Chapter]" << endl;
+        fout << chapter.toStdString();
+    }
+
+    fout << "[Bookmarks]" << endl;
+    foreach (Bookmark bookmark, *book->bookmarks) {
+        fout << bookmark.chapterIndex << ":" << bookmark.pos << ";";
+    }
+    fout << endl;
+
+    fout.close();
+}
 
 BookBuilder::BookBuilder() :
     data(0),
@@ -33,11 +60,16 @@ Book *BookBuilder::readBook()
         procCmd();
     }
     book->title->append(title.c_str());
+    removeCr(book->title);
     book->author->append(author.c_str());
+    removeCr(book->title);
     book->annotation->append(annotation.c_str());
+    removeCr(book->annotation);
     int i = 1;
     for (string *chapter : chapters) {
-        book->chapters->append(QString(chapter->c_str()));
+        QString *str = new QString(chapter->c_str());
+        removeCr(str);
+        book->chapters->append(*str);
         book->chapterTitles->append(QString("Chapter %1").arg(QString::number(i++)));
     }
     for (Bookmark bookmark : bookmarks) {
@@ -167,4 +199,9 @@ string BookBuilder::readToChar(char c, bool inc)
         res.push_back(cur);
     }
     return res;
+}
+
+void BookBuilder::removeCr(QString *string)
+{
+    *string = string->remove(QRegExp(QString("\r")));
 }

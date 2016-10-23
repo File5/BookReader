@@ -12,6 +12,7 @@ using namespace std;
 class BookBuilder
 {
 public:
+    static void writeBook(Book* book, const QString filename);
     BookBuilder();
     BookBuilder(const QString& data);
     ~BookBuilder();
@@ -28,6 +29,8 @@ private:
     void unreadCmd();
     string readValue();
     string readToChar(char c, bool inc = false);
+
+    static void removeCr(QString *string);
 
     string *data;
     int pos;

@@ -185,6 +185,7 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
     <addaction name="actionBookInfo"/>
     <addaction name="actionCreationMode"/>
     <addaction name="actionExit"/>
@@ -265,6 +266,11 @@
   <action name="actionHelp">
    <property name="text">
     <string>&amp;Открыть справку</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>&amp;Сохранить</string>
    </property>
   </action>
  </widget>

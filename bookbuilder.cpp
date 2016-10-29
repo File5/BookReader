@@ -71,10 +71,21 @@ Book *BookBuilder::readBook()
         removeCr(str);
         book->chapters->append(*str);
         book->chapterTitles->append(QString("Chapter %1").arg(QString::number(i++)));
+        delete str;
     }
     for (Bookmark bookmark : bookmarks) {
         book->bookmarks->append(bookmark);
     }
+    return book;
+}
+
+Book *BookBuilder::getEmptyBook()
+{
+    Book *book = new Book();
+    QString chapter("");
+    book->chapters->append(chapter);
+    book->chapterTitles->append(QString("Chapter 1"));
+    book->bookmarks->append(Bookmark(0, 0));
     return book;
 }
 

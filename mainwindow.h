@@ -24,6 +24,7 @@ protected:
 
 private:
     void loadBook(QString filename);
+    void initBook();
     void saveBook(QString filename);
 
     Ui::MainWindow *ui;
@@ -54,6 +55,7 @@ private slots:
     void on_nextButton_clicked();
     void on_goToButton_clicked();
 
+    void on_actionNew_triggered();
     void on_actionCreationMode_triggered();
     void on_actionSplit_triggered();
     void on_actionMerge_triggered();

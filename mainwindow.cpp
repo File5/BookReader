@@ -68,6 +68,11 @@ void MainWindow::loadBook(QString filename)
     }
     currentBook = bookBuilder.readBook();
 
+    initBook();
+}
+
+void MainWindow::initBook()
+{
     currentBook->setPageSize(bookView->document()->pageSize());
     currentBook->setFont(currentFont);
 
@@ -232,6 +237,15 @@ void MainWindow::on_goToButton_clicked()
     int newPage = page - currentBook->getCurrentPage(0, newChapter);
     selectChapter(newChapter);
     bookView->setPage(newPage);
+}
+
+void MainWindow::on_actionNew_triggered()
+{
+    if (currentBook) {
+        delete currentBook;
+    }
+    currentBook = bookBuilder.getEmptyBook();
+    initBook();
 }
 
 void MainWindow::on_actionCreationMode_triggered()

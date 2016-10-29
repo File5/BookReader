@@ -17,6 +17,7 @@ public:
     BookBuilder(const QString& data);
     ~BookBuilder();
     Book* readBook();
+    Book* getEmptyBook();
     void setData(const QString& data);
 
 private:

@@ -195,6 +195,7 @@
      <string>&amp;Правка</string>
     </property>
     <addaction name="actionLoadFromFile"/>
+    <addaction name="actionLoadChapters"/>
     <addaction name="actionSplit"/>
     <addaction name="actionMerge"/>
    </widget>
@@ -271,6 +272,11 @@
   <action name="actionSave">
    <property name="text">
     <string>&amp;Сохранить</string>
+   </property>
+  </action>
+  <action name="actionLoadChapters">
+   <property name="text">
+    <string>Загрузить по &amp;главам</string>
    </property>
   </action>
  </widget>

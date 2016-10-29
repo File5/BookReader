@@ -17,7 +17,7 @@ public:
     BookBuilder(const QString& data);
     ~BookBuilder();
     Book* readBook();
-    Book* getEmptyBook();
+    Book* getEmptyBook(int chapterCount);
     void setData(const QString& data);
 
 private:

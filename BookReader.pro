@@ -17,16 +17,19 @@ SOURCES += main.cpp\
     pagedtextedit.cpp \
     book.cpp \
     bookbuilder.cpp \
-    bookinfodialog.cpp
+    bookinfodialog.cpp \
+    loadchaptersdialog.cpp
 
 HEADERS  += mainwindow.h \
     pagedtextedit.h \
     book.h \
     bookbuilder.h \
-    bookinfodialog.h
+    bookinfodialog.h \
+    loadchaptersdialog.h
 
 FORMS    += mainwindow.ui \
-    bookinfodialog.ui
+    bookinfodialog.ui \
+    loadchaptersdialog.ui
 
 RESOURCES += \
     testdata.qrc

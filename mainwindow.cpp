@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "bookinfodialog.h"
+#include "loadchaptersdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -81,10 +82,11 @@ void MainWindow::initBook()
     displayChaptersList();
 
     if (currentBook->getBookmarkCount() > 0) {
-        goToBookmark(currentBook->getBookmark(0));
+        goToBookmark(currentBook->getBookmark(0), false);
     } else {
-        selectChapter(0);
+        selectChapter(0, false);
     }
+    displayPageNumber(bookView->getPage(), pagesCount);
 }
 
 void MainWindow::saveBook(QString filename)
@@ -149,9 +151,9 @@ void MainWindow::saveChapterText()
     }
 }
 
-void MainWindow::goToBookmark(Bookmark bookmark)
+void MainWindow::goToBookmark(Bookmark bookmark, bool save)
 {
-    selectChapter(bookmark.chapterIndex);
+    selectChapter(bookmark.chapterIndex, save);
     bookView->goToPos(bookmark.pos);
 }
 
@@ -244,7 +246,7 @@ void MainWindow::on_actionNew_triggered()
     if (currentBook) {
         delete currentBook;
     }
-    currentBook = bookBuilder.getEmptyBook();
+    currentBook = bookBuilder.getEmptyBook(1);
     initBook();
 }
 
@@ -257,6 +259,44 @@ void MainWindow::on_actionCreationMode_triggered()
     bookView->setEditingMode(editingMode);
     ui->actionCreationMode->setChecked(editingMode);
     ui->menuEdit->setEnabled(editingMode);
+}
+
+void MainWindow::on_actionLoadFromFile_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this);
+    if (filename.isNull()) return;
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QString *text = new QString(file.readAll());
+    bookView->setText(*text);
+    delete text;
+    file.close();
+}
+
+void MainWindow::on_actionLoadChapters_triggered()
+{
+    LoadChaptersDialog *dialog = new LoadChaptersDialog(this);
+    int res = dialog->exec();
+    if (res != QDialog::Accepted) return;
+
+    QStringList files = dialog->getFilenames();
+    delete dialog;
+
+    if (currentBook) {
+        delete currentBook;
+    }
+    currentBook = bookBuilder.getEmptyBook(files.size());
+    for (int i = 0; i < files.size(); i++) {
+        QString filename = files[i];
+        QFile file(filename);
+        file.open(QIODevice::ReadOnly);
+        QString *text = new QString(file.readAll());
+        file.close();
+        currentBook->setChapterText(i, *text);
+        delete text;
+    }
+    initBook();
 }
 
 void MainWindow::on_actionSplit_triggered()

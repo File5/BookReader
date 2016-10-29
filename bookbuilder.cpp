@@ -79,12 +79,14 @@ Book *BookBuilder::readBook()
     return book;
 }
 
-Book *BookBuilder::getEmptyBook()
+Book *BookBuilder::getEmptyBook(int chapterCount)
 {
     Book *book = new Book();
     QString chapter("");
-    book->chapters->append(chapter);
-    book->chapterTitles->append(QString("Chapter 1"));
+    for (int i = 0; i< chapterCount; i++) {
+        book->chapters->append(chapter);
+        book->chapterTitles->append(QString("Chapter %1").arg(QString::number(i + 1)));
+    }
     book->bookmarks->append(Bookmark(0, 0));
     return book;
 }

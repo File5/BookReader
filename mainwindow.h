@@ -44,7 +44,7 @@ private slots:
     void displayChaptersList();
     void selectChapter(int index, bool save = true);
     void saveChapterText();
-    void goToBookmark(Bookmark bookmark);
+    void goToBookmark(Bookmark bookmark, bool save = true);
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
@@ -57,6 +57,8 @@ private slots:
 
     void on_actionNew_triggered();
     void on_actionCreationMode_triggered();
+    void on_actionLoadFromFile_triggered();
+    void on_actionLoadChapters_triggered();
     void on_actionSplit_triggered();
     void on_actionMerge_triggered();
 };

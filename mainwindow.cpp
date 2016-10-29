@@ -8,10 +8,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     currentFont("Times New Roman", 16),
-    currentChapterIndex(0),
+    currentChapterIndex(-1),
     previousPages(0),
     pagesCount(0),
-    editingMode(false)
+    editingMode(false),
+    editingModeUsed(false)
 {
     ui->setupUi(this);
     ui->actionCreationMode->setCheckable(true);
@@ -82,6 +83,7 @@ void MainWindow::loadBook(QString filename)
 
 void MainWindow::saveBook(QString filename)
 {
+    saveChapterText();
     bookView->savePos();
     int pos = bookView->getSavedPos();
     Bookmark bookmark(currentChapterIndex, pos);
@@ -115,9 +117,15 @@ void MainWindow::displayChaptersList()
     }
 }
 
-void MainWindow::selectChapter(int index)
+void MainWindow::selectChapter(int index, bool save)
 {
     if (currentBook && index < currentBook->getChapterCount()) {
+        if (currentChapterIndex != -1 && editingModeUsed) {
+            if (save) {
+                saveChapterText();
+            }
+            editingModeUsed = editingMode;
+        }
         currentChapterIndex = index;
         previousPages = currentBook->getCurrentPage(0, index);
 
@@ -125,6 +133,13 @@ void MainWindow::selectChapter(int index)
         if (index < ui->chapterList->count()) {
             ui->chapterList->item(index)->setSelected(true);
         }
+    }
+}
+
+void MainWindow::saveChapterText()
+{
+    if (currentBook) {
+        currentBook->setChapterText(currentChapterIndex, bookView->toPlainText());
     }
 }
 
@@ -207,6 +222,9 @@ void MainWindow::on_goToButton_clicked()
 void MainWindow::on_actionCreationMode_triggered()
 {
     editingMode = !editingMode;
+    if (editingMode) {
+        editingModeUsed = true;
+    }
     bookView->setEditingMode(editingMode);
     ui->actionCreationMode->setChecked(editingMode);
     ui->menuEdit->setEnabled(editingMode);
@@ -214,18 +232,20 @@ void MainWindow::on_actionCreationMode_triggered()
 
 void MainWindow::on_actionSplit_triggered()
 {
+    saveChapterText();
     int pos = bookView->getCurrentPos();
     currentBook->splitChapter(currentChapterIndex, pos);
 
     pagesCount = currentBook->getPageCount();
     displayChaptersList();
-    selectChapter(currentChapterIndex + 1);
+    selectChapter(currentChapterIndex + 1, false);
 }
 
 void MainWindow::on_actionMerge_triggered()
 {
+    saveChapterText();
     currentBook->mergeWithPreviousChapter(currentChapterIndex);
 
     displayChaptersList();
-    selectChapter(currentChapterIndex);
+    selectChapter(currentChapterIndex - 1, false);
 }

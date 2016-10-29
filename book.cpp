@@ -160,6 +160,13 @@ void Book::mergeWithPreviousChapter(int chapterIndex)
     calcPageCount();
 }
 
+void Book::setChapterText(int chapterIndex, const QString &text)
+{
+    chapters->replace(chapterIndex, text);
+
+    calcPageCount();
+}
+
 void Book::setPageSize(QSizeF newSize)
 {
     if (newSize != currentSize) {

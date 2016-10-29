@@ -36,11 +36,13 @@ private:
     BookBuilder bookBuilder;
 
     bool editingMode;
+    bool editingModeUsed;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
     void displayChaptersList();
-    void selectChapter(int index);
+    void selectChapter(int index, bool save = true);
+    void saveChapterText();
     void goToBookmark(Bookmark bookmark);
 
     void on_actionBookInfo_triggered();

@@ -42,6 +42,7 @@ public:
 
     void splitChapter(int chapterIndex, int pos);
     void mergeWithPreviousChapter(int chapterIndex);
+    void setChapterText(int chapterIndex, const QString &text);
 
 public slots:
     void setPageSize(QSizeF newSize);

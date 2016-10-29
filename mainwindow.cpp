@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
+#include "bookinfodialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -152,13 +153,27 @@ void MainWindow::goToBookmark(Bookmark bookmark)
 void MainWindow::on_actionBookInfo_triggered()
 {
     if (currentBook) {
-        QString text;
-        text.append("Title: ");
-        text.append(currentBook->getTitle());
-        text.append("Author: ");
-        text.append(currentBook->getAuthor());
-        text.append(currentBook->getAnnotation());
-        QMessageBox::information(this, "Информация о книге", text);
+        if (editingMode) {
+            BookInfoDialog *dialog = new BookInfoDialog(this);
+            dialog->setTitle(currentBook->getTitle());
+            dialog->setAuthor(currentBook->getAuthor());
+            dialog->setAnnotation(currentBook->getAnnotation());
+            int result = dialog->exec();
+            if (result == QDialog::Accepted) {
+                currentBook->setTitle(dialog->getTitle());
+                currentBook->setAuthor(dialog->getAuthor());
+                currentBook->setAnnotation(dialog->getAnnotation());
+            }
+            delete dialog;
+        } else {
+            QString text;
+            text.append("Title: ");
+            text.append(currentBook->getTitle());
+            text.append("Author: ");
+            text.append(currentBook->getAuthor());
+            text.append(currentBook->getAnnotation());
+            QMessageBox::information(this, "Информация о книге", text);
+        }
     }
 }
 

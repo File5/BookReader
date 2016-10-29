@@ -40,6 +40,9 @@ public:
     void setBookmark(int index, Bookmark bookmark);
     void deleteBookmark(int index);
 
+    void splitChapter(int chapterIndex, int pos);
+    void mergeWithPreviousChapter(int chapterIndex);
+
 public slots:
     void setPageSize(QSizeF newSize);
     void setFont(const QFont &newFont);

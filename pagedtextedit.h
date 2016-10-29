@@ -14,8 +14,12 @@ public:
     void setPage(int page);
     int getLastPage();
     void goToPos(int pos);
-    int getPos();
+    int getSavedPos();
+    int getCurrentPos();
     void savePos();
+
+public slots:
+    void setEditingMode(bool editingEnabled);
 
 signals:
     void pageChanged(int currentPage, int lastPage);
@@ -30,6 +34,7 @@ private slots:
 
 private:
     int docPos;
+    bool editingMode;
 };
 
 #endif // PAGEDTEXTEDIT_H

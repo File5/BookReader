@@ -245,7 +245,7 @@
   </action>
   <action name="actionCreationMode">
    <property name="text">
-    <string>&amp;Перейти в режим создания</string>
+    <string>&amp;Режим создания</string>
    </property>
   </action>
   <action name="actionSplit">

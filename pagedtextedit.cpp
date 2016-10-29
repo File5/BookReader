@@ -4,10 +4,10 @@
 
 PagedTextEdit::PagedTextEdit(QWidget *parent) :
     QTextEdit(parent),
-    docPos(0)
+    docPos(0),
+    editingMode(false)
 {
-    setReadOnly(true);
-    setTextInteractionFlags(0);
+    setEditingMode(editingMode);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &PagedTextEdit::updateScrollBar);
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, &PagedTextEdit::onScrolled);
@@ -45,15 +45,31 @@ void PagedTextEdit::goToPos(int pos)
     updateScrollPos();
 }
 
-int PagedTextEdit::getPos()
+int PagedTextEdit::getSavedPos()
 {
-    savePos();
     return docPos;
+}
+
+int PagedTextEdit::getCurrentPos()
+{
+    return textCursor().position();
 }
 
 void PagedTextEdit::savePos()
 {
     docPos = cursorForPosition(QPoint(0, 0)).position();
+}
+
+void PagedTextEdit::setEditingMode(bool editingEnabled)
+{
+    editingMode = editingEnabled;
+    if (editingMode) {
+        setReadOnly(false);
+        setTextInteractionFlags(Qt::TextEditorInteraction);
+    } else {
+        setReadOnly(true);
+        setTextInteractionFlags(0);
+    }
 }
 
 void PagedTextEdit::resizeEvent(QResizeEvent *event)

@@ -10,9 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     currentFont("Times New Roman", 16),
     currentChapterIndex(0),
     previousPages(0),
-    pagesCount(0)
+    pagesCount(0),
+    editingMode(false)
 {
     ui->setupUi(this);
+    ui->actionCreationMode->setCheckable(true);
+    ui->menuEdit->setEnabled(editingMode);
     bookView = new PagedTextEdit(this);
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
@@ -79,7 +82,8 @@ void MainWindow::loadBook(QString filename)
 
 void MainWindow::saveBook(QString filename)
 {
-    int pos = bookView->getPos();
+    bookView->savePos();
+    int pos = bookView->getSavedPos();
     Bookmark bookmark(currentChapterIndex, pos);
     currentBook->setBookmark(0, bookmark);
     BookBuilder::writeBook(currentBook, filename);
@@ -198,4 +202,30 @@ void MainWindow::on_goToButton_clicked()
     int newPage = page - currentBook->getCurrentPage(0, newChapter);
     selectChapter(newChapter);
     bookView->setPage(newPage);
+}
+
+void MainWindow::on_actionCreationMode_triggered()
+{
+    editingMode = !editingMode;
+    bookView->setEditingMode(editingMode);
+    ui->actionCreationMode->setChecked(editingMode);
+    ui->menuEdit->setEnabled(editingMode);
+}
+
+void MainWindow::on_actionSplit_triggered()
+{
+    int pos = bookView->getCurrentPos();
+    currentBook->splitChapter(currentChapterIndex, pos);
+
+    pagesCount = currentBook->getPageCount();
+    displayChaptersList();
+    selectChapter(currentChapterIndex + 1);
+}
+
+void MainWindow::on_actionMerge_triggered()
+{
+    currentBook->mergeWithPreviousChapter(currentChapterIndex);
+
+    displayChaptersList();
+    selectChapter(currentChapterIndex);
 }

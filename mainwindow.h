@@ -35,6 +35,8 @@ private:
     int pagesCount;
     BookBuilder bookBuilder;
 
+    bool editingMode;
+
 private slots:
     void displayPageNumber(int current, int lastPage);
     void displayChaptersList();
@@ -49,6 +51,10 @@ private slots:
     void on_prevButton_clicked();
     void on_nextButton_clicked();
     void on_goToButton_clicked();
+
+    void on_actionCreationMode_triggered();
+    void on_actionSplit_triggered();
+    void on_actionMerge_triggered();
 };
 
 #endif // MAINWINDOW_H

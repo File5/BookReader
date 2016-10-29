@@ -137,6 +137,29 @@ void Book::deleteBookmark(int index)
     bookmarks->removeAt(index);
 }
 
+void Book::splitChapter(int chapterIndex, int pos)
+{
+    QString text = chapters->at(chapterIndex);
+    QString newChapter = text.right(text.length() - pos);
+    text.resize(pos);
+    chapters->replace(chapterIndex, text);
+    chapters->insert(chapterIndex + 1, newChapter);
+
+    chapterTitles->insert(chapterIndex + 1, QString("New chapter"));
+    calcPageCount();
+}
+
+void Book::mergeWithPreviousChapter(int chapterIndex)
+{
+    QString text = chapters->at(chapterIndex - 1);
+    text.append(chapters->at(chapterIndex));
+    chapters->replace(chapterIndex - 1, text);
+    chapters->removeAt(chapterIndex);
+
+    chapterTitles->removeAt(chapterIndex);
+    calcPageCount();
+}
+
 void Book::setPageSize(QSizeF newSize)
 {
     if (newSize != currentSize) {

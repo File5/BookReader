@@ -126,6 +126,17 @@ int Book::getCurrentPage(int page, int chapterIndex)
     return len + page;
 }
 
+void Book::setBookmark(int index, Bookmark bookmark)
+{
+    bookmarks->removeAt(index);
+    bookmarks->insert(index, bookmark);
+}
+
+void Book::deleteBookmark(int index)
+{
+    bookmarks->removeAt(index);
+}
+
 void Book::setPageSize(QSizeF newSize)
 {
     if (newSize != currentSize) {

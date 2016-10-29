@@ -37,6 +37,9 @@ public:
     int getPageCount() const;
     int getCurrentPage(int page, int chapterIndex);
 
+    void setBookmark(int index, Bookmark bookmark);
+    void deleteBookmark(int index);
+
 public slots:
     void setPageSize(QSizeF newSize);
     void setFont(const QFont &newFont);

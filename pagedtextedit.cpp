@@ -3,7 +3,8 @@
 #include <QScrollBar>
 
 PagedTextEdit::PagedTextEdit(QWidget *parent) :
-    QTextEdit(parent)
+    QTextEdit(parent),
+    docPos(0)
 {
     setReadOnly(true);
     setTextInteractionFlags(0);
@@ -40,26 +41,41 @@ int PagedTextEdit::getLastPage()
 
 void PagedTextEdit::goToPos(int pos)
 {
-    QTextCursor cursor = textCursor();
-    cursor.setPosition(pos);
-    setTextCursor(cursor);
-    ensureCursorVisible();
+    docPos = pos;
+    updateScrollPos();
+}
+
+int PagedTextEdit::getPos()
+{
+    savePos();
+    return docPos;
+}
+
+void PagedTextEdit::savePos()
+{
+    docPos = cursorForPosition(QPoint(0, 0)).position();
 }
 
 void PagedTextEdit::resizeEvent(QResizeEvent *event)
 {
+    QTextEdit::resizeEvent(event);
     document()->setPageSize(event->size());
+    updateScrollPos();
 }
 
-void PagedTextEdit::updateScrollPos(double docPos)
+void PagedTextEdit::updateScrollPos()
 {
     QTextDocument *doc = document();
     int pageHeight = doc->pageSize().height();
-    int documentHeight = pageHeight * (doc->pageCount() - 1);
 
     QScrollBar *scrollBar = verticalScrollBar();
-    double pos = docPos * documentHeight;
 
+    QTextCursor cursor = textCursor();
+    if (docPos != -1 && cursor.position() != docPos) {
+        cursor.setPosition(docPos);
+    }
+    QRect rect = cursorRect(cursor);
+    int pos = rect.bottom();
     int newPos = pos / pageHeight;
     scrollBar->setValue(newPos * pageHeight);
 }
@@ -75,14 +91,12 @@ void PagedTextEdit::updateScrollBar(int min, int max)
 
     if (max == documentHeight) return;
 
-    double oldDocPos = (scrollBar->value() + pageHeight) / (double) (max + pageHeight);
+    int pos = scrollBar->value();
     scrollBar->setMaximum(documentHeight);
     scrollBar->setSingleStep(pageHeight);
     scrollBar->setPageStep(pageHeight);
+    scrollBar->setValue(pos);
 
-    updateScrollPos(oldDocPos);
-
-    int pos = scrollBar->value();
     emit pageChanged(pos / pageHeight + 1, documentHeight / pageHeight + 1);
 }
 

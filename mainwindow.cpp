@@ -79,6 +79,9 @@ void MainWindow::loadBook(QString filename)
 
 void MainWindow::saveBook(QString filename)
 {
+    int pos = bookView->getPos();
+    Bookmark bookmark(currentChapterIndex, pos);
+    currentBook->setBookmark(0, bookmark);
     BookBuilder::writeBook(currentBook, filename);
 }
 

@@ -14,6 +14,8 @@ public:
     void setPage(int page);
     int getLastPage();
     void goToPos(int pos);
+    int getPos();
+    void savePos();
 
 signals:
     void pageChanged(int currentPage, int lastPage);
@@ -22,9 +24,12 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private slots:
-    void updateScrollPos(double docPos);
+    void updateScrollPos();
     void updateScrollBar(int min, int max);
     void onScrolled(int pos);
+
+private:
+    int docPos;
 };
 
 #endif // PAGEDTEXTEDIT_H

@@ -141,6 +141,7 @@ void MainWindow::selectChapter(int index, bool save)
         if (index < ui->chapterList->count()) {
             ui->chapterList->item(index)->setSelected(true);
         }
+        bookView->setPage(1);
     }
 }
 
@@ -222,7 +223,7 @@ void MainWindow::on_prevButton_clicked()
 void MainWindow::on_nextButton_clicked()
 {
     if (bookView->getPage() == bookView->getLastPage()) {
-        if (currentChapterIndex - 1 < currentBook->getChapterCount()) {
+        if (currentChapterIndex + 1 < currentBook->getChapterCount()) {
             int newChapter = currentChapterIndex + 1;
             selectChapter(newChapter);
             bookView->setPage(1);

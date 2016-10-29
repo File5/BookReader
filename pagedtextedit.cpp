@@ -26,8 +26,11 @@ void PagedTextEdit::setPage(int page)
 {
     QTextDocument *doc = document();
     int pageHeight = doc->pageSize().height();
+    int documentHeight = pageHeight * (doc->pageCount() - 1);
 
     verticalScrollBar()->setValue(pageHeight * (page - 1));
+
+    emit pageChanged(page, documentHeight / pageHeight + 1);
 }
 
 int PagedTextEdit::getLastPage()

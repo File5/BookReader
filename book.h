@@ -84,6 +84,14 @@ struct Bookmark {
     Bookmark(int chapterIndex, int pos) :
         chapterIndex(chapterIndex),
         pos(pos) {}
+
+    bool operator <(const Bookmark& other) {
+        if (chapterIndex != other.chapterIndex) {
+            return chapterIndex < other.chapterIndex;
+        } else {
+            return pos < other.pos;
+        }
+    }
 };
 
 #endif // BOOK_H

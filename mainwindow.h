@@ -40,6 +40,9 @@ private:
     bool editingMode;
     bool editingModeUsed;
 
+    QList<Bookmark> searchResults;
+    int currentSearchResult;
+
 private slots:
     void displayPageNumber(int current, int lastPage);
     void displayChaptersList();

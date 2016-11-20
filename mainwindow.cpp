@@ -290,10 +290,28 @@ void MainWindow::on_goToButton_clicked()
 void MainWindow::on_findButton_clicked()
 {
     if (currentBook) {
-        QList<Bookmark> results = currentBook->findText(ui->findEdit->text());
-        foreach (Bookmark result, results) {
+        searchResults = currentBook->findText(ui->findEdit->text());
+
+        if (!searchResults.empty()) {
+            currentSearchResult = 0;
+        } else {
+            currentSearchResult = -1;
+            return;
+        }
+
+        bookView->savePos();
+        int pos = bookView->getSavedPos();
+        Bookmark currentPos(currentChapterIndex, pos);
+        for (int i = 1; i < searchResults.size(); i++) {
+            if (currentPos < searchResults.at(i)) {
+                currentSearchResult = i;
+                break;
+            }
+        }
+        foreach (Bookmark result, searchResults) {
             qDebug() << result.chapterIndex << ":" << result.pos;
         }
+        qDebug() << currentSearchResult;
     }
 }
 

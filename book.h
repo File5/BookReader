@@ -37,6 +37,7 @@ public:
     int getPageCount() const;
     int getCurrentPage(int page, int chapterIndex);
 
+    void addBookmark(Bookmark bookmark);
     void setBookmark(int index, Bookmark bookmark);
     void deleteBookmark(int index);
 

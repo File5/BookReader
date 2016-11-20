@@ -126,6 +126,11 @@ int Book::getCurrentPage(int page, int chapterIndex)
     return len + page;
 }
 
+void Book::addBookmark(Bookmark bookmark)
+{
+    bookmarks->append(bookmark);
+}
+
 void Book::setBookmark(int index, Bookmark bookmark)
 {
     bookmarks->removeAt(index);

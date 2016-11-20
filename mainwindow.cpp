@@ -235,6 +235,21 @@ void MainWindow::on_bookmarkList_clicked(const QModelIndex &index)
     goToBookmark(currentBook->getBookmark(index.row()));
 }
 
+void MainWindow::on_addBookmarkButton_clicked()
+{
+    bookView->savePos();
+    int bookmarkPos = bookView->getSavedPos();
+    currentBook->addBookmark(Bookmark(currentChapterIndex, bookmarkPos));
+    displayBookmarkList();
+}
+
+void MainWindow::on_removeBookmarkButton_clicked()
+{
+    int selectedIndex = ui->bookmarkList->currentRow();
+    currentBook->deleteBookmark(selectedIndex);
+    displayBookmarkList();
+}
+
 void MainWindow::on_prevButton_clicked()
 {
     if (bookView->getPage() == 1) {

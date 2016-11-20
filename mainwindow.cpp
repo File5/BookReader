@@ -39,7 +39,7 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     QMainWindow::showEvent(event);
 
-    loadBook(QString(":/text/testbook.txt"));
+    loadBook(QString("lastbook.txt"));
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -55,9 +55,18 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    saveBook("lastbook.txt");
+
+    QMainWindow::closeEvent(event);
+}
+
 void MainWindow::loadBook(QString filename)
 {
     QFile file(filename);
+    if (!file.exists()) return;
+
     file.open(QIODevice::ReadOnly);
     QString data(file.readAll());
     file.close();
@@ -91,6 +100,8 @@ void MainWindow::initBook()
 
 void MainWindow::saveBook(QString filename)
 {
+    if (!currentBook) return;
+
     saveChapterText();
     bookView->savePos();
     int pos = bookView->getSavedPos();

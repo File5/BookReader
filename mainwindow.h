@@ -21,6 +21,7 @@ public:
 protected:
     virtual void showEvent(QShowEvent * event);
     virtual void resizeEvent(QResizeEvent * event);
+    virtual void closeEvent(QCloseEvent * event);
 
 private:
     void loadBook(QString filename);

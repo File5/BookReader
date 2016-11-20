@@ -59,6 +59,7 @@ private slots:
     void on_prevButton_clicked();
     void on_nextButton_clicked();
     void on_goToButton_clicked();
+    void on_findButton_clicked();
 
     void on_actionNew_triggered();
     void on_actionCreationMode_triggered();

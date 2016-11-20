@@ -6,6 +6,8 @@
 #include "bookinfodialog.h"
 #include "loadchaptersdialog.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -283,6 +285,16 @@ void MainWindow::on_goToButton_clicked()
     int newPage = page - currentBook->getCurrentPage(0, newChapter);
     selectChapter(newChapter);
     bookView->setPage(newPage);
+}
+
+void MainWindow::on_findButton_clicked()
+{
+    if (currentBook) {
+        QList<Bookmark> results = currentBook->findText(ui->findEdit->text());
+        foreach (Bookmark result, results) {
+            qDebug() << result.chapterIndex << ":" << result.pos;
+        }
+    }
 }
 
 void MainWindow::on_actionNew_triggered()

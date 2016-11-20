@@ -45,6 +45,8 @@ public:
     void mergeWithPreviousChapter(int chapterIndex);
     void setChapterText(int chapterIndex, const QString &text);
 
+    QList<Bookmark> findText(QString text);
+
 public slots:
     void setPageSize(QSizeF newSize);
     void setFont(const QFont &newFont);

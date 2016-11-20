@@ -172,6 +172,28 @@ void Book::setChapterText(int chapterIndex, const QString &text)
     calcPageCount();
 }
 
+QList<Bookmark> Book::findText(QString text)
+{
+    QList<Bookmark> results;
+    int textLength = text.length();
+
+    for (int chapterIndex = 0; chapterIndex < getChapterCount(); chapterIndex++) {
+        QString chapter = getChapter(chapterIndex);
+        int chapterLength = chapter.length();
+
+        int textIndex = 0;
+        while (textIndex != -1 && textIndex < chapterLength) {
+            textIndex = chapter.indexOf(text, textIndex);
+            if (textIndex != -1) {
+                results.append(Bookmark(chapterIndex, textIndex));
+                textIndex += textLength;
+            }
+        }
+    }
+
+    return results;
+}
+
 void Book::setPageSize(QSizeF newSize)
 {
     if (newSize != currentSize) {

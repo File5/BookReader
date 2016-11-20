@@ -89,6 +89,7 @@ void MainWindow::initBook()
     pagesCount = currentBook->getPageCount();
 
     displayChaptersList();
+    displayBookmarkList();
 
     if (currentBook->getBookmarkCount() > 0) {
         goToBookmark(currentBook->getBookmark(0), false);
@@ -132,6 +133,17 @@ void MainWindow::displayChaptersList()
     if (currentBook) {
         for (int i = 0; i < currentBook->getChapterCount(); i++) {
             ui->chapterList->addItem(currentBook->getChapterTitle(i));
+        }
+    }
+}
+
+void MainWindow::displayBookmarkList()
+{
+    ui->bookmarkList->clear();
+    if (currentBook) {
+        ui->bookmarkList->addItem(QString("Last close position"));
+        for (int i = 1; i < currentBook->getBookmarkCount(); i++) {
+            ui->bookmarkList->addItem(QString("Bookmark %1").arg(QString::number(i)));
         }
     }
 }
@@ -216,6 +228,11 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::on_chapterList_clicked(const QModelIndex &index)
 {
     selectChapter(index.row());
+}
+
+void MainWindow::on_bookmarkList_clicked(const QModelIndex &index)
+{
+    goToBookmark(currentBook->getBookmark(index.row()));
 }
 
 void MainWindow::on_prevButton_clicked()

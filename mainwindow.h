@@ -43,6 +43,7 @@ private:
 private slots:
     void displayPageNumber(int current, int lastPage);
     void displayChaptersList();
+    void displayBookmarkList();
     void selectChapter(int index, bool save = true);
     void saveChapterText();
     void goToBookmark(Bookmark bookmark, bool save = true);
@@ -52,6 +53,7 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_chapterList_clicked(const QModelIndex &index);
+    void on_bookmarkList_clicked(const QModelIndex &index);
     void on_prevButton_clicked();
     void on_nextButton_clicked();
     void on_goToButton_clicked();

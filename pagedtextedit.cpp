@@ -11,6 +11,11 @@ PagedTextEdit::PagedTextEdit(QWidget *parent) :
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &PagedTextEdit::updateScrollBar);
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, &PagedTextEdit::onScrolled);
+
+    QPalette p = palette();
+    p.setColor(QPalette::Highlight, QColor(255, 255, 0));
+    p.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
+    setPalette(p);
 }
 
 int PagedTextEdit::getPage()
@@ -73,6 +78,21 @@ void PagedTextEdit::setEditingMode(bool editingEnabled)
         setReadOnly(true);
         setTextInteractionFlags(0);
     }
+}
+
+void PagedTextEdit::selectText(int pos1, int len)
+{
+    QTextCursor cursor = textCursor();
+    cursor.setPosition(pos1);
+    cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, len);
+    setTextCursor(cursor);
+}
+
+void PagedTextEdit::deselectText()
+{
+    QTextCursor cursor = textCursor();
+    cursor.clearSelection();
+    setTextCursor(cursor);
 }
 
 void PagedTextEdit::resizeEvent(QResizeEvent *event)

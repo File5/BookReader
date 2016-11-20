@@ -42,6 +42,7 @@ private:
 
     QList<Bookmark> searchResults;
     int currentSearchResult;
+    int currentSearchSelectionLength;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
@@ -63,6 +64,8 @@ private slots:
     void on_nextButton_clicked();
     void on_goToButton_clicked();
     void on_findButton_clicked();
+    void on_findNextButton_clicked();
+    void on_findPrevButton_clicked();
 
     void on_actionNew_triggered();
     void on_actionCreationMode_triggered();

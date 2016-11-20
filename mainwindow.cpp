@@ -290,29 +290,64 @@ void MainWindow::on_goToButton_clicked()
 void MainWindow::on_findButton_clicked()
 {
     if (currentBook) {
-        searchResults = currentBook->findText(ui->findEdit->text());
+        QString textToFind = ui->findEdit->text();
+        if (textToFind.isEmpty()) {
+            bookView->deselectText();
+            return;
+        }
+
+        searchResults = currentBook->findText(textToFind);
 
         if (!searchResults.empty()) {
             currentSearchResult = 0;
+            currentSearchSelectionLength = textToFind.length();
         } else {
             currentSearchResult = -1;
+            currentSearchSelectionLength = 0;
+            QMessageBox::information(this, "Найти", "Совпадений нет");
             return;
         }
 
         bookView->savePos();
         int pos = bookView->getSavedPos();
-        Bookmark currentPos(currentChapterIndex, pos);
+        Bookmark currentScrollPos(currentChapterIndex, pos);
         for (int i = 1; i < searchResults.size(); i++) {
-            if (currentPos < searchResults.at(i)) {
+            if (currentScrollPos < searchResults.at(i)) {
                 currentSearchResult = i;
                 break;
             }
         }
-        foreach (Bookmark result, searchResults) {
-            qDebug() << result.chapterIndex << ":" << result.pos;
-        }
-        qDebug() << currentSearchResult;
+
+        Bookmark currentPos = searchResults.at(currentSearchResult);
+        goToBookmark(currentPos);
+        bookView->selectText(currentPos.pos, currentSearchSelectionLength);
     }
+}
+
+void MainWindow::on_findNextButton_clicked()
+{
+    if (currentSearchResult == -1) return;
+
+    currentSearchResult++;
+    currentSearchResult %= searchResults.size();
+
+    Bookmark currentPos = searchResults.at(currentSearchResult);
+    goToBookmark(currentPos);
+    bookView->selectText(currentPos.pos, currentSearchSelectionLength);
+}
+
+void MainWindow::on_findPrevButton_clicked()
+{
+    if (currentSearchResult == -1) return;
+
+    currentSearchResult--;
+    if (currentSearchResult < 0) {
+        currentSearchResult += searchResults.size();
+    }
+
+    Bookmark currentPos = searchResults.at(currentSearchResult);
+    goToBookmark(currentPos);
+    bookView->selectText(currentPos.pos, currentSearchSelectionLength);
 }
 
 void MainWindow::on_actionNew_triggered()

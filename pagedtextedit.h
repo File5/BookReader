@@ -20,6 +20,8 @@ public:
 
 public slots:
     void setEditingMode(bool editingEnabled);
+    void selectText(int pos1, int len);
+    void deselectText();
 
 signals:
     void pageChanged(int currentPage, int lastPage);

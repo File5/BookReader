@@ -18,6 +18,8 @@ public:
     int getCurrentPos();
     void savePos();
 
+    void createReference(int pos1, int len, const QString& href);
+
 public slots:
     void setEditingMode(bool editingEnabled);
     void selectText(int pos1, int len);
@@ -25,9 +27,11 @@ public slots:
 
 signals:
     void pageChanged(int currentPage, int lastPage);
+    void referenceClicked(QString href);
 
 protected:
     void resizeEvent(QResizeEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void updateScrollPos();

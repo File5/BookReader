@@ -68,6 +68,18 @@ void PagedTextEdit::savePos()
     docPos = cursorForPosition(QPoint(0, 0)).position();
 }
 
+void PagedTextEdit::createReference(int pos1, int len, const QString& href)
+{
+    QTextCursor cursor = textCursor();
+    cursor.setPosition(pos1);
+    cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, len);
+    QTextCharFormat format;
+    format.setAnchor(true);
+    format.setAnchorHref(href);
+    format.setFontUnderline(true);
+    cursor.setCharFormat(format);
+}
+
 void PagedTextEdit::setEditingMode(bool editingEnabled)
 {
     editingMode = editingEnabled;
@@ -100,6 +112,14 @@ void PagedTextEdit::resizeEvent(QResizeEvent *event)
     QTextEdit::resizeEvent(event);
     document()->setPageSize(event->size());
     updateScrollPos();
+}
+
+void PagedTextEdit::mousePressEvent(QMouseEvent *event)
+{
+    QString href = anchorAt(event->pos());
+    if (!href.isEmpty()) {
+        emit referenceClicked(href);
+    }
 }
 
 void PagedTextEdit::updateScrollPos()

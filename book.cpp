@@ -127,6 +127,16 @@ int Book::getCurrentPage(int page, int chapterIndex)
     return len + page;
 }
 
+int Book::getReferencesCount()
+{
+    return referenses->size();
+}
+
+Reference Book::getReference(int index)
+{
+    return referenses->at(index);
+}
+
 void Book::addBookmark(Bookmark bookmark)
 {
     bookmarks->append(bookmark);

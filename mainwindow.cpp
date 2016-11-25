@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuEdit->setEnabled(editingMode);
     bookView = new PagedTextEdit(this);
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
+    connect(bookView, &PagedTextEdit::referenceClicked, this, &MainWindow::test);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
     ui->bookView->hide();
     bookView->setFont(currentFont);
@@ -150,6 +151,17 @@ void MainWindow::displayBookmarkList()
     }
 }
 
+void MainWindow::initChapterReferences()
+{
+    int count = currentBook->getReferencesCount();
+    for (int i = 0; i < count; i++) {
+        Reference reference = currentBook->getReference(i);
+        if (reference.bookmark.chapterIndex == currentChapterIndex) {
+            bookView->createReference(reference.bookmark.pos, reference.len, QString(reference.text.c_str()));
+        }
+    }
+}
+
 void MainWindow::selectChapter(int index, bool save)
 {
     if (currentBook && index < currentBook->getChapterCount()) {
@@ -166,6 +178,7 @@ void MainWindow::selectChapter(int index, bool save)
         if (index < ui->chapterList->count()) {
             ui->chapterList->item(index)->setSelected(true);
         }
+        initChapterReferences();
         bookView->setPage(1);
     }
 }
@@ -426,4 +439,9 @@ void MainWindow::on_actionMerge_triggered()
 
     displayChaptersList();
     selectChapter(currentChapterIndex - 1, false);
+}
+
+void MainWindow::test(QString href)
+{
+    QMessageBox::information(this, "Reference", href);
 }

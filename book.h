@@ -41,6 +41,9 @@ public:
     int getPageCount() const;
     int getCurrentPage(int page, int chapterIndex);
 
+    int getReferencesCount();
+    Reference getReference(int index);
+
     void addBookmark(Bookmark bookmark);
     void setBookmark(int index, Bookmark bookmark);
     void deleteBookmark(int index);

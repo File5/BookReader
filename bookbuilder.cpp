@@ -62,7 +62,7 @@ Book *BookBuilder::readBook()
     book->title->append(title.c_str());
     removeCr(book->title);
     book->author->append(author.c_str());
-    removeCr(book->title);
+    removeCr(book->author);
     book->annotation->append(annotation.c_str());
     removeCr(book->annotation);
     int i = 1;

@@ -24,6 +24,7 @@ private:
     void readBookInfo();
     void readChapter();
     void readBookmarks();
+    void readReferences();
 
     void procCmd();
     string readCmd();
@@ -43,6 +44,7 @@ private:
     string author;
     string annotation;
     list<Bookmark> bookmarks;
+    list<Reference> references;
 };
 
 #endif // BOOKBUILDER_H

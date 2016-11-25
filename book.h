@@ -6,10 +6,14 @@
 #include <QString>
 #include <QSize>
 #include <QFont>
+#include <string>
+
+using std::string;
 
 class BookBuilder;
 
 struct Bookmark;
+struct Reference;
 
 class Book : public QObject
 {
@@ -67,6 +71,8 @@ private:
     QList<int> *pageCount;
     QList<Bookmark> *bookmarks;
 
+    QList<Reference> *referenses;
+
     QSizeF currentSize;
     QFont currentFont;
 
@@ -92,6 +98,20 @@ struct Bookmark {
             return pos < other.pos;
         }
     }
+};
+
+struct Reference {
+    Bookmark bookmark;
+    int len;
+    string text;
+
+    Reference() :
+        len(0) {}
+
+    Reference(Bookmark bookmark, int len, string text):
+        bookmark(bookmark),
+        len(len),
+        text(text) {}
 };
 
 #endif // BOOK_H

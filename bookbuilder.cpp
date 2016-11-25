@@ -26,6 +26,16 @@ void BookBuilder::writeBook(Book *book, const QString filename)
     }
     fout << endl;
 
+    if (!book->referenses->empty()) {
+        fout << "[References]" << endl;
+        foreach (Reference reference, *book->referenses) {
+            fout << reference.bookmark.chapterIndex << ":" <<
+                    reference.bookmark.pos << ":" <<
+                    reference.len << ":" <<
+                    reference.text << ";" << endl;
+        }
+    }
+
     fout.close();
 }
 
@@ -75,6 +85,9 @@ Book *BookBuilder::readBook()
     }
     for (Bookmark bookmark : bookmarks) {
         book->bookmarks->append(bookmark);
+    }
+    for (Reference reference : references) {
+        book->referenses->append(reference);
     }
     return book;
 }
@@ -161,6 +174,50 @@ void BookBuilder::readBookmarks()
     }
 }
 
+void BookBuilder::readReferences()
+{
+    enum { CHAPTER, POS, LEN, TEXT, MODES_COUNT };
+
+    string str = readValue();
+    int chapterIndex = 0, pos = 0, len = 0;
+    string text;
+    int mode = CHAPTER;
+    for (int i = 0; i < str.length(); i++) {
+        char c = str[i];
+        switch (c) {
+        case ':':
+            mode = (mode + 1) % MODES_COUNT;
+            break;
+        case ';':
+            references.push_back(Reference(Bookmark(chapterIndex, pos), len, text));
+            chapterIndex = 0;
+            pos = 0;
+            len = 0;
+            text.clear();
+            mode = 0;
+            break;
+        default:
+            if ('0' <= c && c <= '9') {
+                if (mode == CHAPTER) {
+                    chapterIndex *= 10;
+                    chapterIndex += (c - '0');
+                } else if (mode == POS) {
+                    pos *= 10;
+                    pos += (c - '0');
+                } else if (mode == LEN) {
+                    len *= 10;
+                    len += (c - '0');
+                } else {
+                    text.push_back(c);
+                }
+            } else if (mode == TEXT) {
+                text.push_back(c);
+            }
+            break;
+        }
+    }
+}
+
 void BookBuilder::procCmd()
 {
     string cmd = readCmd();
@@ -170,6 +227,8 @@ void BookBuilder::procCmd()
         readChapter();
     } else if (cmd == "Bookmarks") {
         readBookmarks();
+    } else if (cmd == "References") {
+        readReferences();
     }
 }
 

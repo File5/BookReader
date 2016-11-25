@@ -34,6 +34,7 @@ Book::~Book()
     delete chapterTitles;
     delete pageCount;
     delete bookmarks;
+    delete referenses;
 }
 
 const QString &Book::getTitle() const
@@ -226,6 +227,7 @@ void Book::allocMemory()
     chapterTitles = new QList<QString>();
     pageCount = new QList<int>();
     bookmarks = new QList<Bookmark>();
+    referenses = new QList<Reference>();
 }
 
 void Book::parseData(const QString &data)

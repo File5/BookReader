@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     bookbuilder.cpp \
     bookinfodialog.cpp \
     loadchaptersdialog.cpp \
-    addreferencedialog.cpp
+    addreferencedialog.cpp \
+    settingsmanager.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     pagedtextedit.h \
@@ -27,12 +29,15 @@ HEADERS  += mainwindow.h \
     bookbuilder.h \
     bookinfodialog.h \
     loadchaptersdialog.h \
-    addreferencedialog.h
+    addreferencedialog.h \
+    settingsmanager.h \
+    settingsdialog.h
 
 FORMS    += mainwindow.ui \
     bookinfodialog.ui \
     loadchaptersdialog.ui \
-    addreferencedialog.ui
+    addreferencedialog.ui \
+    settingsdialog.ui
 
 RESOURCES += \
     testdata.qrc

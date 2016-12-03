@@ -96,7 +96,7 @@ struct Bookmark {
         chapterIndex(chapterIndex),
         pos(pos) {}
 
-    bool operator <(const Bookmark& other) {
+    bool operator <(const Bookmark& other) const {
         if (chapterIndex != other.chapterIndex) {
             return chapterIndex < other.chapterIndex;
         } else {
@@ -118,7 +118,7 @@ struct Reference {
         len(len),
         text(text) {}
 
-    bool contains(int chapterIndex, int pos) {
+    bool contains(int chapterIndex, int pos) const {
         Bookmark end(bookmark.chapterIndex, bookmark.pos + len);
         Bookmark current(chapterIndex, pos);
         return bookmark < current && current < end;

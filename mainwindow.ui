@@ -294,6 +294,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionBookInfo"/>
     <addaction name="actionCreationMode"/>
+    <addaction name="actionSettings"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -395,6 +396,11 @@
   <action name="actionDeleteReference">
    <property name="text">
     <string>&amp;Удалить сноску</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>&amp;Настройки</string>
    </property>
   </action>
  </widget>

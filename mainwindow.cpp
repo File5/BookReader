@@ -6,6 +6,7 @@
 #include "bookinfodialog.h"
 #include "loadchaptersdialog.h"
 #include "addreferencedialog.h"
+#include "settingsdialog.h"
 
 #include <QDebug>
 
@@ -23,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionCreationMode->setCheckable(true);
     ui->menuEdit->setEnabled(editingMode);
     bookView = new PagedTextEdit(this);
+    initSettings();
+
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
     connect(bookView, &PagedTextEdit::referenceClicked, this, &MainWindow::showReference);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
@@ -95,12 +98,24 @@ void MainWindow::initBook()
     displayChaptersList();
     displayBookmarkList();
 
-    if (currentBook->getBookmarkCount() > 0) {
+    bool goToLastPos = smanager.getCurrentSettings().startWithLastPos;
+    if (currentBook->getBookmarkCount() > 0 && goToLastPos) {
         goToBookmark(currentBook->getBookmark(0), false);
     } else {
-        selectChapter(0, false);
+        goToBookmark(Bookmark(0, 0), false);
     }
     displayPageNumber(bookView->getPage(), pagesCount);
+}
+
+void MainWindow::initSettings()
+{
+    smanager.readSettings();
+    Settings settings = smanager.getCurrentSettings();
+
+    if (settings.startWithEditingMode) {
+        on_actionCreationMode_triggered();
+    }
+    currentFont.setPointSize(settings.fontSize);
 }
 
 void MainWindow::saveBook(QString filename)
@@ -201,6 +216,11 @@ void MainWindow::goToBookmark(Bookmark bookmark, bool save)
 void MainWindow::showReference(QString href)
 {
     QMessageBox::information(this, "Reference", href);
+}
+
+void MainWindow::loadSettings()
+{
+    smanager.readSettings();
 }
 
 void MainWindow::on_actionBookInfo_triggered()
@@ -461,4 +481,15 @@ void MainWindow::on_actionAddReference_triggered()
 void MainWindow::on_actionDeleteReference_triggered()
 {
     bookView->setSelectedAsNormalText();
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->setSettings(smanager.getCurrentSettings());
+    int result = dialog->exec();
+    if (result == QDialog::Accepted) {
+        smanager.saveSettings(dialog->getSettings());
+    }
+    delete dialog;
 }

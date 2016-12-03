@@ -5,6 +5,7 @@
 #include "pagedtextedit.h"
 #include "book.h"
 #include "bookbuilder.h"
+#include "settingsmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,7 @@ protected:
 private:
     void loadBook(QString filename);
     void initBook();
+    void initSettings();
     void saveBook(QString filename);
 
     Ui::MainWindow *ui;
@@ -43,6 +45,7 @@ private:
     QList<Bookmark> searchResults;
     int currentSearchResult;
     int currentSearchSelectionLength;
+    SettingsManager smanager;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
@@ -53,6 +56,7 @@ private slots:
     void saveChapterText();
     void goToBookmark(Bookmark bookmark, bool save = true);
     void showReference(QString href);
+    void loadSettings();
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
@@ -77,6 +81,7 @@ private slots:
     void on_actionMerge_triggered();
     void on_actionAddReference_triggered();
     void on_actionDeleteReference_triggered();
+    void on_actionSettings_triggered();
 };
 
 #endif // MAINWINDOW_H

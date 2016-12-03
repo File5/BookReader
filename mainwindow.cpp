@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include "bookinfodialog.h"
 #include "loadchaptersdialog.h"
+#include "addreferencedialog.h"
 
 #include <QDebug>
 
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuEdit->setEnabled(editingMode);
     bookView = new PagedTextEdit(this);
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
-    connect(bookView, &PagedTextEdit::referenceClicked, this, &MainWindow::test);
+    connect(bookView, &PagedTextEdit::referenceClicked, this, &MainWindow::showReference);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
     ui->bookView->hide();
     bookView->setFont(currentFont);
@@ -195,6 +196,11 @@ void MainWindow::goToBookmark(Bookmark bookmark, bool save)
 {
     selectChapter(bookmark.chapterIndex, save);
     bookView->goToPos(bookmark.pos);
+}
+
+void MainWindow::showReference(QString href)
+{
+    QMessageBox::information(this, "Reference", href);
 }
 
 void MainWindow::on_actionBookInfo_triggered()
@@ -442,7 +448,17 @@ void MainWindow::on_actionMerge_triggered()
     selectChapter(currentChapterIndex - 1, false);
 }
 
-void MainWindow::test(QString href)
+void MainWindow::on_actionAddReference_triggered()
 {
-    QMessageBox::information(this, "Reference", href);
+    AddReferenceDialog *dialog = new AddReferenceDialog(this);
+    int result = dialog->exec();
+    if (result == QDialog::Accepted) {
+        bookView->setSelectedAsReference(dialog->getText());
+    }
+    delete dialog;
+}
+
+void MainWindow::on_actionDeleteReference_triggered()
+{
+    bookView->setSelectedAsNormalText();
 }

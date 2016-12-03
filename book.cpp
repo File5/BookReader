@@ -137,6 +137,21 @@ Reference Book::getReference(int index)
     return referenses->at(index);
 }
 
+void Book::addReference(const Reference &reference)
+{
+    referenses->append(reference);
+}
+
+void Book::deleteReference(int chapterIndex, int pos)
+{
+    for (int i = 0; i < referenses->size(); i++) {
+        if (referenses->at(i).contains(chapterIndex, pos)) {
+            referenses->removeAt(i);
+            return;
+        }
+    }
+}
+
 void Book::addBookmark(Bookmark bookmark)
 {
     bookmarks->append(bookmark);

@@ -84,6 +84,20 @@ void PagedTextEdit::createReference(int pos1, int len, const QString& href)
     cursor.clearSelection();
 }
 
+void PagedTextEdit::setSelectedAsReference(const QString &href)
+{
+    QTextCursor cursor = textCursor();
+    QTextCharFormat format = QTextCharFormat(referenceCharFormat);
+    format.setAnchorHref(href);
+    cursor.setCharFormat(format);
+}
+
+void PagedTextEdit::setSelectedAsNormalText()
+{
+    QTextCursor cursor = textCursor();
+    cursor.setCharFormat(defaultCharFormat);
+}
+
 void PagedTextEdit::setEditingMode(bool editingEnabled)
 {
     editingMode = editingEnabled;

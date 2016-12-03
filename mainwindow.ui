@@ -304,6 +304,8 @@
     <addaction name="actionLoadChapters"/>
     <addaction name="actionSplit"/>
     <addaction name="actionMerge"/>
+    <addaction name="actionAddReference"/>
+    <addaction name="actionDeleteReference"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -383,6 +385,16 @@
   <action name="actionLoadChapters">
    <property name="text">
     <string>Загрузить по &amp;главам</string>
+   </property>
+  </action>
+  <action name="actionAddReference">
+   <property name="text">
+    <string>&amp;Добавить сноску</string>
+   </property>
+  </action>
+  <action name="actionDeleteReference">
+   <property name="text">
+    <string>&amp;Удалить сноску</string>
    </property>
   </action>
  </widget>

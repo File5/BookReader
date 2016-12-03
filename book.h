@@ -43,6 +43,8 @@ public:
 
     int getReferencesCount();
     Reference getReference(int index);
+    void addReference(const Reference &reference);
+    void deleteReference(int chapterIndex, int pos);
 
     void addBookmark(Bookmark bookmark);
     void setBookmark(int index, Bookmark bookmark);
@@ -115,6 +117,12 @@ struct Reference {
         bookmark(bookmark),
         len(len),
         text(text) {}
+
+    bool contains(int chapterIndex, int pos) {
+        Bookmark end(bookmark.chapterIndex, bookmark.pos + len);
+        Bookmark current(chapterIndex, pos);
+        return bookmark < current && current < end;
+    }
 };
 
 #endif // BOOK_H

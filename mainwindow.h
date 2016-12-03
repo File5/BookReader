@@ -52,6 +52,7 @@ private slots:
     void selectChapter(int index, bool save = true);
     void saveChapterText();
     void goToBookmark(Bookmark bookmark, bool save = true);
+    void showReference(QString href);
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
@@ -74,8 +75,8 @@ private slots:
     void on_actionLoadChapters_triggered();
     void on_actionSplit_triggered();
     void on_actionMerge_triggered();
-
-    void test(QString href);
+    void on_actionAddReference_triggered();
+    void on_actionDeleteReference_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -19,6 +19,8 @@ public:
     void savePos();
 
     void createReference(int pos1, int len, const QString& href);
+    void setSelectedAsReference(const QString &href);
+    void setSelectedAsNormalText();
 
 public slots:
     void setEditingMode(bool editingEnabled);

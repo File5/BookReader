@@ -7,6 +7,7 @@
 #include "loadchaptersdialog.h"
 #include "addreferencedialog.h"
 #include "settingsdialog.h"
+#include "autoscrolldialog.h"
 
 #include <QDebug>
 
@@ -24,10 +25,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionCreationMode->setCheckable(true);
     ui->menuEdit->setEnabled(editingMode);
     bookView = new PagedTextEdit(this);
+    timer = new QTimer(this);
     initSettings();
 
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
     connect(bookView, &PagedTextEdit::referenceClicked, this, &MainWindow::showReference);
+    connect(timer, &QTimer::timeout, this, &MainWindow::on_nextButton_clicked);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
     ui->bookView->hide();
     bookView->setFont(currentFont);
@@ -37,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete timer;
     delete currentBook;
     delete bookView;
     delete ui;
@@ -492,4 +496,14 @@ void MainWindow::on_actionSettings_triggered()
         smanager.saveSettings(dialog->getSettings());
     }
     delete dialog;
+}
+
+void MainWindow::on_actionAutoScroll_triggered()
+{
+    timer->stop();
+    AutoScrollDialog *dialog = new AutoScrollDialog(this);
+    int result = dialog->exec();
+    if (result == QDialog::Accepted) {
+        timer->start(dialog->getInterval() * 1000);
+    }
 }

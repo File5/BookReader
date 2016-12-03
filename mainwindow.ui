@@ -295,6 +295,7 @@
     <addaction name="actionBookInfo"/>
     <addaction name="actionCreationMode"/>
     <addaction name="actionSettings"/>
+    <addaction name="actionAutoScroll"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -401,6 +402,11 @@
   <action name="actionSettings">
    <property name="text">
     <string>&amp;Настройки</string>
+   </property>
+  </action>
+  <action name="actionAutoScroll">
+   <property name="text">
+    <string>&amp;Автоматически листать страницы</string>
    </property>
   </action>
  </widget>

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include "pagedtextedit.h"
 #include "book.h"
 #include "bookbuilder.h"
@@ -46,6 +47,7 @@ private:
     int currentSearchResult;
     int currentSearchSelectionLength;
     SettingsManager smanager;
+    QTimer *timer;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
@@ -82,6 +84,7 @@ private slots:
     void on_actionAddReference_triggered();
     void on_actionDeleteReference_triggered();
     void on_actionSettings_triggered();
+    void on_actionAutoScroll_triggered();
 };
 
 #endif // MAINWINDOW_H

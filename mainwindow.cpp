@@ -174,6 +174,7 @@ void MainWindow::selectChapter(int index, bool save)
         currentChapterIndex = index;
         previousPages = currentBook->getCurrentPage(0, index);
 
+        bookView->deselectText();
         bookView->setText(currentBook->getChapter(index));
         if (index < ui->chapterList->count()) {
             ui->chapterList->item(index)->setSelected(true);

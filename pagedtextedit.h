@@ -41,6 +41,9 @@ private slots:
 private:
     int docPos;
     bool editingMode;
+
+    QTextCharFormat defaultCharFormat;
+    QTextCharFormat referenceCharFormat;
 };
 
 #endif // PAGEDTEXTEDIT_H

@@ -16,6 +16,11 @@ PagedTextEdit::PagedTextEdit(QWidget *parent) :
     p.setColor(QPalette::Highlight, QColor(255, 255, 0));
     p.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
     setPalette(p);
+
+    defaultCharFormat = textCursor().charFormat();
+    referenceCharFormat = QTextCharFormat(defaultCharFormat);
+    referenceCharFormat.setAnchor(true);
+    referenceCharFormat.setFontUnderline(true);
 }
 
 int PagedTextEdit::getPage()
@@ -73,11 +78,10 @@ void PagedTextEdit::createReference(int pos1, int len, const QString& href)
     QTextCursor cursor = textCursor();
     cursor.setPosition(pos1);
     cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, len);
-    QTextCharFormat format;
-    format.setAnchor(true);
+    QTextCharFormat format = QTextCharFormat(referenceCharFormat);
     format.setAnchorHref(href);
-    format.setFontUnderline(true);
     cursor.setCharFormat(format);
+    cursor.clearSelection();
 }
 
 void PagedTextEdit::setEditingMode(bool editingEnabled)
@@ -94,6 +98,7 @@ void PagedTextEdit::setEditingMode(bool editingEnabled)
 
 void PagedTextEdit::selectText(int pos1, int len)
 {
+    deselectText();
     QTextCursor cursor = textCursor();
     cursor.setPosition(pos1);
     cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, len);
@@ -104,6 +109,7 @@ void PagedTextEdit::deselectText()
 {
     QTextCursor cursor = textCursor();
     cursor.clearSelection();
+    cursor.setCharFormat(defaultCharFormat);
     setTextCursor(cursor);
 }
 
@@ -116,6 +122,8 @@ void PagedTextEdit::resizeEvent(QResizeEvent *event)
 
 void PagedTextEdit::mousePressEvent(QMouseEvent *event)
 {
+    QTextEdit::mousePressEvent(event);
+
     QString href = anchorAt(event->pos());
     if (!href.isEmpty()) {
         emit referenceClicked(href);

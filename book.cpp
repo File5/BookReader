@@ -142,10 +142,12 @@ void Book::addReference(const Reference &reference)
     referenses->append(reference);
 }
 
-void Book::deleteReference(int chapterIndex, int pos)
+void Book::deleteReference(int chapterIndex, int pos, int len)
 {
+    int pos2 = pos + len;
     for (int i = 0; i < referenses->size(); i++) {
-        if (referenses->at(i).contains(chapterIndex, pos)) {
+        Reference ref = referenses->at(i);
+        if (pos < ref.bookmark.pos && ref.bookmark.pos < pos2) {
             referenses->removeAt(i);
             return;
         }

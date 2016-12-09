@@ -4,6 +4,8 @@
 #include <QTextEdit>
 #include <QResizeEvent>
 
+struct Selection;
+
 class PagedTextEdit : public QTextEdit
 {
     Q_OBJECT
@@ -25,6 +27,7 @@ public:
 public slots:
     void setEditingMode(bool editingEnabled);
     void selectText(int pos1, int len);
+    Selection getSelection();
     void deselectText();
 
 signals:
@@ -46,6 +49,11 @@ private:
 
     QTextCharFormat defaultCharFormat;
     QTextCharFormat referenceCharFormat;
+};
+
+struct Selection {
+    int pos;
+    int len;
 };
 
 #endif // PAGEDTEXTEDIT_H

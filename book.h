@@ -44,7 +44,7 @@ public:
     int getReferencesCount();
     Reference getReference(int index);
     void addReference(const Reference &reference);
-    void deleteReference(int chapterIndex, int pos);
+    void deleteReference(int chapterIndex, int pos, int len);
 
     void addBookmark(Bookmark bookmark);
     void setBookmark(int index, Bookmark bookmark);

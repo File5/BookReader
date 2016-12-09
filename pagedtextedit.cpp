@@ -119,6 +119,22 @@ void PagedTextEdit::selectText(int pos1, int len)
     setTextCursor(cursor);
 }
 
+Selection PagedTextEdit::getSelection()
+{
+    QTextCursor cursor = textCursor();
+    Selection selection;
+    int begin = cursor.selectionStart();
+    int end = cursor.selectionEnd();
+    if (begin > end) {
+        int tmp = begin;
+        begin = end;
+        end = tmp;
+    }
+    selection.pos = begin;
+    selection.len = end - begin;
+    return selection;
+}
+
 void PagedTextEdit::deselectText()
 {
     QTextCursor cursor = textCursor();

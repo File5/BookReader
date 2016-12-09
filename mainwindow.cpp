@@ -477,13 +477,24 @@ void MainWindow::on_actionAddReference_triggered()
     AddReferenceDialog *dialog = new AddReferenceDialog(this);
     int result = dialog->exec();
     if (result == QDialog::Accepted) {
-        bookView->setSelectedAsReference(dialog->getText());
+        QString refText = dialog->getText();
+        Selection textSelection = bookView->getSelection();
+        bookView->setSelectedAsReference(refText);
+        currentBook->addReference(
+            Reference(
+                Bookmark(currentChapterIndex, textSelection.pos),
+                textSelection.len,
+                refText.toStdString()
+            )
+        );
     }
     delete dialog;
 }
 
 void MainWindow::on_actionDeleteReference_triggered()
 {
+    Selection textSelection = bookView->getSelection();
+    currentBook->deleteReference(currentChapterIndex, textSelection.pos, textSelection.len);
     bookView->setSelectedAsNormalText();
 }
 

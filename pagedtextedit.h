@@ -24,6 +24,8 @@ public:
     void setSelectedAsReference(const QString &href);
     void setSelectedAsNormalText();
 
+    void createImage(int pos, QString filename);
+
 public slots:
     void setEditingMode(bool editingEnabled);
     void selectText(int pos1, int len);

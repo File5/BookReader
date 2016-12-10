@@ -54,6 +54,7 @@ private slots:
     void displayChaptersList();
     void displayBookmarkList();
     void initChapterReferences();
+    void initChapterImages();
     void selectChapter(int index, bool save = true);
     void saveChapterText();
     void goToBookmark(Bookmark bookmark, bool save = true);

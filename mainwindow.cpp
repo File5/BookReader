@@ -182,6 +182,17 @@ void MainWindow::initChapterReferences()
     }
 }
 
+void MainWindow::initChapterImages()
+{
+    int count = currentBook->getImagesCount();
+    for (int i = 0; i < count; i++) {
+        Image image = currentBook->getImage(i);
+        if (image.bookmark.chapterIndex == currentChapterIndex) {
+            bookView->createImage(image.bookmark.pos, image.url.c_str());
+        }
+    }
+}
+
 void MainWindow::selectChapter(int index, bool save)
 {
     if (currentBook && index < currentBook->getChapterCount()) {
@@ -200,6 +211,7 @@ void MainWindow::selectChapter(int index, bool save)
             ui->chapterList->item(index)->setSelected(true);
         }
         initChapterReferences();
+        initChapterImages();
         bookView->setPage(1);
     }
 }

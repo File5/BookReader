@@ -1,6 +1,7 @@
 #include "pagedtextedit.h"
 
 #include <QScrollBar>
+#include <QTextDocumentFragment>
 
 PagedTextEdit::PagedTextEdit(QWidget *parent) :
     QTextEdit(parent),
@@ -96,6 +97,16 @@ void PagedTextEdit::setSelectedAsNormalText()
 {
     QTextCursor cursor = textCursor();
     cursor.setCharFormat(defaultCharFormat);
+}
+
+void PagedTextEdit::createImage(int pos, QString filename)
+{
+    QTextDocumentFragment fragment = QTextDocumentFragment::fromHtml(
+        QString("<img src='") + filename + QString("'>")
+    );
+    QTextCursor cursor = textCursor();
+    cursor.setPosition(pos);
+    cursor.insertFragment(fragment);
 }
 
 void PagedTextEdit::setEditingMode(bool editingEnabled)

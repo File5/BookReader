@@ -35,6 +35,7 @@ Book::~Book()
     delete pageCount;
     delete bookmarks;
     delete referenses;
+    delete images;
 }
 
 const QString &Book::getTitle() const
@@ -147,7 +148,34 @@ void Book::deleteReference(int chapterIndex, int pos, int len)
     int pos2 = pos + len;
     for (int i = 0; i < referenses->size(); i++) {
         Reference ref = referenses->at(i);
-        if (pos < ref.bookmark.pos && ref.bookmark.pos < pos2) {
+        if (ref.bookmark.chapterIndex == chapterIndex && pos < ref.bookmark.pos && ref.bookmark.pos < pos2) {
+            referenses->removeAt(i);
+            return;
+        }
+    }
+}
+
+int Book::getImagesCount()
+{
+    return images->size();
+}
+
+Image Book::getImage(int index)
+{
+    return images->at(index);
+}
+
+void Book::addImage(const Image &image)
+{
+    images->append(image);
+}
+
+void Book::deleteImage(int chapterIndex, int pos, int len)
+{
+    int pos2 = pos + len;
+    for (int i = 0; i < images->size(); i++) {
+        Image image = images->at(i);
+        if (image.bookmark.chapterIndex == chapterIndex && pos < image.bookmark.pos && image.bookmark.pos < pos2) {
             referenses->removeAt(i);
             return;
         }
@@ -255,6 +283,7 @@ void Book::allocMemory()
     pageCount = new QList<int>();
     bookmarks = new QList<Bookmark>();
     referenses = new QList<Reference>();
+    images = new QList<Image>();
 }
 
 void Book::parseData(const QString &data)

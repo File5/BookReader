@@ -14,6 +14,7 @@ class BookBuilder;
 
 struct Bookmark;
 struct Reference;
+struct Image;
 
 class Book : public QObject
 {
@@ -46,6 +47,11 @@ public:
     void addReference(const Reference &reference);
     void deleteReference(int chapterIndex, int pos, int len);
 
+    int getImagesCount();
+    Image getImage(int index);
+    void addImage(const Image &image);
+    void deleteImage(int chapterIndex, int pos, int len);
+
     void addBookmark(Bookmark bookmark);
     void setBookmark(int index, Bookmark bookmark);
     void deleteBookmark(int index);
@@ -77,6 +83,7 @@ private:
     QList<Bookmark> *bookmarks;
 
     QList<Reference> *referenses;
+    QList<Image> *images;
 
     QSizeF currentSize;
     QFont currentFont;
@@ -123,6 +130,15 @@ struct Reference {
         Bookmark current(chapterIndex, pos);
         return bookmark < current && current < end;
     }
+};
+
+struct Image {
+    Bookmark bookmark;
+    string url;
+
+    Image(Bookmark bookmark, string url):
+        bookmark(bookmark),
+        url(url) {}
 };
 
 #endif // BOOK_H

@@ -2,6 +2,23 @@
 
 #include <cctype>
 #include <fstream>
+#include <QDir>
+
+QList<BookCover> BookBuilder::getBookCovers()
+{
+    QList<BookCover> books;
+
+    QDir dir;
+    QStringList names;
+    names << "*.tbk";
+    QStringList filenames = dir.entryList(names, QDir::Files);
+    foreach (QString filename, filenames) {
+        BookCover bookCover = readBookCover(filename);
+        books.append(bookCover);
+    }
+
+    return books;
+}
 
 void BookBuilder::writeBook(Book *book, const QString filename)
 {
@@ -14,6 +31,10 @@ void BookBuilder::writeBook(Book *book, const QString filename)
     fout << book->author->toStdString();
     fout << "[Annotation]" << endl;
     fout << book->annotation->toStdString();
+    fout << "[Date]" << endl;
+    fout << book->date->toStdString();
+    fout << "[Genre]" << endl;
+    fout << book->genre->toStdString();
 
     foreach (QString chapter, *book->chapters) {
         fout << "[Chapter]" << endl;
@@ -94,6 +115,10 @@ Book *BookBuilder::readBook()
     removeCr(book->author);
     book->annotation->append(annotation.c_str());
     removeCr(book->annotation);
+    book->date->append(date.c_str());
+    removeCr(book->date);
+    book->genre->append(genre.c_str());
+    removeCr(book->genre);
     int i = 1;
     for (string *chapter : chapters) {
         QString *str = new QString(chapter->c_str());
@@ -145,9 +170,31 @@ void BookBuilder::setData(const QString &data)
     bookmarks.clear();
 }
 
+BookCover BookBuilder::readBookCover(QString filename)
+{
+    BookCover bookCover;
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QString content(file.readAll());
+    BookBuilder *tmp = new BookBuilder(content);
+    tmp->readCmd();
+    tmp->readBookInfo();
+
+    bookCover.title = tmp->title;
+    bookCover.author = tmp->author;
+    bookCover.date = tmp->date;
+    bookCover.genre = tmp->genre;
+
+    file.close();
+    delete tmp;
+
+    return bookCover;
+}
+
 void BookBuilder::readBookInfo()
 {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
         string cmd = readCmd();
         if (cmd == "Title") {
             title = readValue();
@@ -155,6 +202,10 @@ void BookBuilder::readBookInfo()
             author = readValue();
         } else if (cmd == "Annotation") {
             annotation = readValue();
+        } else if (cmd == "Date") {
+            date = readValue();
+        } else if (cmd == "Genre") {
+            genre = readValue();
         } else {
             unreadCmd();
             break;

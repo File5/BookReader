@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     addreferencedialog.cpp \
     settingsmanager.cpp \
     settingsdialog.cpp \
-    autoscrolldialog.cpp
+    autoscrolldialog.cpp \
+    librarydialog.cpp
 
 HEADERS  += mainwindow.h \
     pagedtextedit.h \
@@ -33,14 +34,16 @@ HEADERS  += mainwindow.h \
     addreferencedialog.h \
     settingsmanager.h \
     settingsdialog.h \
-    autoscrolldialog.h
+    autoscrolldialog.h \
+    librarydialog.h
 
 FORMS    += mainwindow.ui \
     bookinfodialog.ui \
     loadchaptersdialog.ui \
     addreferencedialog.ui \
     settingsdialog.ui \
-    autoscrolldialog.ui
+    autoscrolldialog.ui \
+    librarydialog.ui
 
 RESOURCES += \
     testdata.qrc

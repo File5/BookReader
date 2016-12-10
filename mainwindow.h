@@ -95,6 +95,7 @@ private slots:
     void on_actionDeleteComment_triggered();
     void on_actionSettings_triggered();
     void on_actionAutoScroll_triggered();
+    void on_actionLibrary_triggered();
 };
 
 #endif // MAINWINDOW_H

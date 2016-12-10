@@ -8,6 +8,7 @@
 #include "addreferencedialog.h"
 #include "settingsdialog.h"
 #include "autoscrolldialog.h"
+#include "librarydialog.h"
 
 #include <QDebug>
 
@@ -595,4 +596,15 @@ void MainWindow::on_actionAutoScroll_triggered()
     if (result == QDialog::Accepted) {
         timer->start(dialog->getInterval() * 1000);
     }
+}
+
+void MainWindow::on_actionLibrary_triggered()
+{
+    LibraryDialog *dialog = new LibraryDialog(this);
+
+    QList<BookCover> bookCovers = BookBuilder::getBookCovers();
+    dialog->setBookCovers(bookCovers);
+
+    int result = dialog->exec();
+    delete dialog;
 }

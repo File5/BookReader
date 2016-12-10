@@ -16,6 +16,7 @@ struct Bookmark;
 struct Reference;
 struct Image;
 struct Comment;
+struct BookCover;
 
 class Book : public QObject
 {
@@ -32,6 +33,10 @@ public:
     void setAuthor(const QString& value);
     const QString& getAnnotation() const;
     void setAnnotation(const QString& value);
+    const QString& getDate() const;
+    void setDate(const QString& value);
+    const QString& getGenre() const;
+    void setGenre(const QString& value);
 
     const QString& getChapter(int index) const;
     const QString& getChapterTitle(int index) const;
@@ -83,6 +88,8 @@ private:
     QString *title;
     QString *author;
     QString *annotation;
+    QString *date;
+    QString *genre;
 
     QList<QString> *chapters;
     QList<QString> *chapterTitles;
@@ -155,6 +162,18 @@ struct Comment : public Reference {
 
     Comment(Bookmark bookmark, int len, string text):
         Reference(bookmark, len, text) {}
+};
+
+struct BookCover {
+    string title;
+    string author;
+    string date;
+    string genre;
+
+    BookCover() {}
+
+    BookCover(string title, string author, string date, string genre):
+        title(title), author(author), date(date), genre(genre) {}
 };
 
 #endif // BOOK_H

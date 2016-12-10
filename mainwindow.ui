@@ -296,6 +296,7 @@
     <addaction name="actionCreationMode"/>
     <addaction name="actionSettings"/>
     <addaction name="actionAutoScroll"/>
+    <addaction name="actionLibrary"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -431,6 +432,11 @@
   <action name="actionDeleteComment">
    <property name="text">
     <string>&amp;Удалить комментарий</string>
+   </property>
+  </action>
+  <action name="actionLibrary">
+   <property name="text">
+    <string>&amp;Библеотека</string>
    </property>
   </action>
  </widget>

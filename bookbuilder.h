@@ -12,6 +12,7 @@ using namespace std;
 class BookBuilder
 {
 public:
+    static QList<BookCover> getBookCovers();
     static void writeBook(Book* book, const QString filename);
     BookBuilder();
     BookBuilder(const QString& data);
@@ -21,6 +22,8 @@ public:
     void setData(const QString& data);
 
 private:
+    static BookCover readBookCover(QString filename);
+
     void readBookInfo();
     void readChapter();
     void readBookmarks();
@@ -45,6 +48,8 @@ private:
     string title;
     string author;
     string annotation;
+    string date;
+    string genre;
     list<Bookmark> bookmarks;
     list<Reference> references;
     list<Image> images;

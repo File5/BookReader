@@ -29,6 +29,8 @@ Book::~Book()
     delete title;
     delete author;
     delete annotation;
+    delete date;
+    delete genre;
 
     delete chapters;
     delete chapterTitles;
@@ -66,6 +68,26 @@ const QString &Book::getAnnotation() const
 void Book::setAnnotation(const QString &value)
 {
     *annotation = value;
+}
+
+const QString &Book::getDate() const
+{
+    return *date;
+}
+
+void Book::setDate(const QString &value)
+{
+    *date = value;
+}
+
+const QString &Book::getGenre() const
+{
+    return *genre;
+}
+
+void Book::setGenre(const QString &value)
+{
+    *genre = value;
 }
 
 const QString &Book::getChapter(int index) const
@@ -310,6 +332,8 @@ void Book::allocMemory()
     title = new QString();
     author = new QString();
     annotation = new QString();
+    date = new QString();
+    genre = new QString();
 
     chapters = new QList<QString>();
     chapterTitles = new QList<QString>();

@@ -36,6 +36,7 @@ Book::~Book()
     delete bookmarks;
     delete referenses;
     delete images;
+    delete comments;
 }
 
 const QString &Book::getTitle() const
@@ -182,6 +183,38 @@ void Book::deleteImage(int chapterIndex, int pos, int len)
     }
 }
 
+int Book::getCommentsCount()
+{
+    return comments->size();
+}
+
+Comment Book::getComment(int index)
+{
+    return comments->at(index);
+}
+
+void Book::addComment(const Comment &comment)
+{
+    comments->append(comment);
+}
+
+void Book::deleteComment(int chapterIndex, int pos, int len)
+{
+    int pos2 = pos + len;
+    for (int i = 0; i < comments->size(); i++) {
+        Comment com = comments->at(i);
+        if (com.bookmark.chapterIndex == chapterIndex && pos <= com.bookmark.pos && com.bookmark.pos <= pos2) {
+            comments->removeAt(i);
+            return;
+        }
+    }
+}
+
+const QList<Comment> *Book::getAllComments()
+{
+    return comments;
+}
+
 void Book::addBookmark(Bookmark bookmark)
 {
     bookmarks->append(bookmark);
@@ -284,6 +317,7 @@ void Book::allocMemory()
     bookmarks = new QList<Bookmark>();
     referenses = new QList<Reference>();
     images = new QList<Image>();
+    comments = new QList<Comment>();
 }
 
 void Book::parseData(const QString &data)

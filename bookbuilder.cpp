@@ -45,6 +45,16 @@ void BookBuilder::writeBook(Book *book, const QString filename)
         }
     }
 
+    if (!book->comments->empty()) {
+        fout << "[Comments]" << endl;
+        foreach (Comment comment, *book->comments) {
+            fout << comment.bookmark.chapterIndex << ":" <<
+                    comment.bookmark.pos << ":" <<
+                    comment.len << ":" <<
+                    comment.text << ";" << endl;
+        }
+    }
+
     fout.close();
 }
 
@@ -100,6 +110,9 @@ Book *BookBuilder::readBook()
     }
     for (Image image : images) {
         book->images->append(image);
+    }
+    for (Comment comment : comments) {
+        book->comments->append(comment);
     }
     return book;
 }
@@ -271,6 +284,50 @@ void BookBuilder::readImages()
     }
 }
 
+void BookBuilder::readComments()
+{
+    enum { CHAPTER, POS, LEN, TEXT, MODES_COUNT };
+
+    string str = readValue();
+    int chapterIndex = 0, pos = 0, len = 0;
+    string text;
+    int mode = CHAPTER;
+    for (int i = 0; i < str.length(); i++) {
+        char c = str[i];
+        switch (c) {
+        case ':':
+            mode = (mode + 1) % MODES_COUNT;
+            break;
+        case ';':
+            comments.push_back(Comment(Bookmark(chapterIndex, pos), len, text));
+            chapterIndex = 0;
+            pos = 0;
+            len = 0;
+            text.clear();
+            mode = 0;
+            break;
+        default:
+            if ('0' <= c && c <= '9') {
+                if (mode == CHAPTER) {
+                    chapterIndex *= 10;
+                    chapterIndex += (c - '0');
+                } else if (mode == POS) {
+                    pos *= 10;
+                    pos += (c - '0');
+                } else if (mode == LEN) {
+                    len *= 10;
+                    len += (c - '0');
+                } else {
+                    text.push_back(c);
+                }
+            } else if (mode == TEXT) {
+                text.push_back(c);
+            }
+            break;
+        }
+    }
+}
+
 void BookBuilder::procCmd()
 {
     string cmd = readCmd();
@@ -284,6 +341,8 @@ void BookBuilder::procCmd()
         readReferences();
     } else if (cmd == "Images") {
         readImages();
+    } else if (cmd == "Comments") {
+        readComments();
     }
 }
 

@@ -26,6 +26,7 @@ private:
     void readBookmarks();
     void readReferences();
     void readImages();
+    void readComments();
 
     void procCmd();
     string readCmd();
@@ -47,6 +48,7 @@ private:
     list<Bookmark> bookmarks;
     list<Reference> references;
     list<Image> images;
+    list<Comment> comments;
 };
 
 #endif // BOOKBUILDER_H

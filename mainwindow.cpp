@@ -197,6 +197,17 @@ void MainWindow::initChapterImages()
     }
 }
 
+void MainWindow::initChapterComments()
+{
+    int count = currentBook->getCommentsCount();
+    for (int i = 0; i < count; i++) {
+        Comment comment = currentBook->getComment(i);
+        if (comment.bookmark.chapterIndex == currentChapterIndex) {
+            bookView->createComment(comment.bookmark.pos, comment.len, QString(comment.text.c_str()));
+        }
+    }
+}
+
 void MainWindow::selectChapter(int index, bool save)
 {
     if (currentBook && index < currentBook->getChapterCount()) {
@@ -216,6 +227,7 @@ void MainWindow::selectChapter(int index, bool save)
         }
         initChapterReferences();
         initChapterImages();
+        initChapterComments();
         bookView->setPage(1);
     }
 }
@@ -236,7 +248,7 @@ void MainWindow::goToBookmark(Bookmark bookmark, bool save)
 
 void MainWindow::showReference(QString href)
 {
-    QMessageBox::information(this, "Reference", href);
+    QMessageBox::information(this, "Information", href);
 }
 
 void MainWindow::loadSettings()
@@ -536,6 +548,32 @@ void MainWindow::on_actionDeleteImage_triggered()
     Selection textSelection = bookView->getSelection();
     currentBook->deleteImage(currentChapterIndex, textSelection.pos, textSelection.len);
     bookView->deleteSelectedText();
+}
+
+void MainWindow::on_actionAddComment_triggered()
+{
+    AddReferenceDialog *dialog = new AddReferenceDialog(this);
+    int result = dialog->exec();
+    if (result == QDialog::Accepted) {
+        QString refText = dialog->getText();
+        Selection textSelection = bookView->getSelection();
+        bookView->setSelectedAsComment(refText);
+        currentBook->addComment(
+            Comment(
+                Bookmark(currentChapterIndex, textSelection.pos),
+                textSelection.len,
+                refText.toStdString()
+            )
+        );
+    }
+    delete dialog;
+}
+
+void MainWindow::on_actionDeleteComment_triggered()
+{
+    Selection textSelection = bookView->getSelection();
+    currentBook->deleteComment(currentChapterIndex, textSelection.pos, textSelection.len);
+    bookView->setSelectedAsNormalText();
 }
 
 void MainWindow::on_actionSettings_triggered()

@@ -310,6 +310,8 @@
     <addaction name="actionDeleteReference"/>
     <addaction name="actionAddImage"/>
     <addaction name="actionDeleteImage"/>
+    <addaction name="actionAddComment"/>
+    <addaction name="actionDeleteComment"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -419,6 +421,16 @@
   <action name="actionDeleteImage">
    <property name="text">
     <string>&amp;Удалить изображение</string>
+   </property>
+  </action>
+  <action name="actionAddComment">
+   <property name="text">
+    <string>&amp;Добавить комментарий</string>
+   </property>
+  </action>
+  <action name="actionDeleteComment">
+   <property name="text">
+    <string>&amp;Удалить комментарий</string>
    </property>
   </action>
  </widget>

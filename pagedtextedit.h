@@ -27,6 +27,9 @@ public:
     void createImage(int pos, QString filename);
     void deleteSelectedText();
 
+    void createComment(int pos1, int len, const QString& href);
+    void setSelectedAsComment(const QString &href);
+
 public slots:
     void setEditingMode(bool editingEnabled);
     void selectText(int pos1, int len);
@@ -52,6 +55,7 @@ private:
 
     QTextCharFormat defaultCharFormat;
     QTextCharFormat referenceCharFormat;
+    QTextCharFormat commentCharFormat;
 };
 
 struct Selection {

@@ -57,6 +57,7 @@ private slots:
     void displayBookmarkList();
     void initChapterReferences();
     void initChapterImages();
+    void initChapterComments();
     void selectChapter(int index, bool save = true);
     void saveChapterText();
     void goToBookmark(Bookmark bookmark, bool save = true);
@@ -90,6 +91,8 @@ private slots:
     void on_actionDeleteReference_triggered();
     void on_actionAddImage_triggered();
     void on_actionDeleteImage_triggered();
+    void on_actionAddComment_triggered();
+    void on_actionDeleteComment_triggered();
     void on_actionSettings_triggered();
     void on_actionAutoScroll_triggered();
 };

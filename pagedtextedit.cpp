@@ -19,9 +19,14 @@ PagedTextEdit::PagedTextEdit(QWidget *parent) :
     setPalette(p);
 
     defaultCharFormat = textCursor().charFormat();
+
     referenceCharFormat = QTextCharFormat(defaultCharFormat);
     referenceCharFormat.setAnchor(true);
     referenceCharFormat.setFontUnderline(true);
+
+    commentCharFormat = QTextCharFormat(defaultCharFormat);
+    commentCharFormat.setAnchor(true);
+    commentCharFormat.setBackground(QBrush(QColor(200, 200, 200)));
 }
 
 int PagedTextEdit::getPage()
@@ -114,6 +119,25 @@ void PagedTextEdit::deleteSelectedText()
 {
     QTextCursor cursor = textCursor();
     cursor.removeSelectedText();
+}
+
+void PagedTextEdit::createComment(int pos1, int len, const QString &href)
+{
+    QTextCursor cursor = textCursor();
+    cursor.setPosition(pos1);
+    cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, len);
+    QTextCharFormat format = QTextCharFormat(commentCharFormat);
+    format.setAnchorHref(href);
+    cursor.setCharFormat(format);
+    cursor.clearSelection();
+}
+
+void PagedTextEdit::setSelectedAsComment(const QString &href)
+{
+    QTextCursor cursor = textCursor();
+    QTextCharFormat format = QTextCharFormat(commentCharFormat);
+    format.setAnchorHref(href);
+    cursor.setCharFormat(format);
 }
 
 void PagedTextEdit::setEditingMode(bool editingEnabled)

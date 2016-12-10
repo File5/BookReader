@@ -308,6 +308,8 @@
     <addaction name="actionMerge"/>
     <addaction name="actionAddReference"/>
     <addaction name="actionDeleteReference"/>
+    <addaction name="actionAddImage"/>
+    <addaction name="actionDeleteImage"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -407,6 +409,16 @@
   <action name="actionAutoScroll">
    <property name="text">
     <string>&amp;Автоматически листать страницы</string>
+   </property>
+  </action>
+  <action name="actionAddImage">
+   <property name="text">
+    <string>&amp;Добавить изображение</string>
+   </property>
+  </action>
+  <action name="actionDeleteImage">
+   <property name="text">
+    <string>&amp;Удалить изображение</string>
    </property>
   </action>
  </widget>

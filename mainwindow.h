@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QLabel>
 #include "pagedtextedit.h"
 #include "book.h"
 #include "bookbuilder.h"
@@ -48,6 +49,7 @@ private:
     int currentSearchSelectionLength;
     SettingsManager smanager;
     QTimer *timer;
+    QLabel *statusBarLabel;
 
 private slots:
     void displayPageNumber(int current, int lastPage);
@@ -60,6 +62,8 @@ private slots:
     void goToBookmark(Bookmark bookmark, bool save = true);
     void showReference(QString href);
     void loadSettings();
+
+    void showPosInStatusBar();
 
     void on_actionBookInfo_triggered();
     void on_actionExit_triggered();
@@ -84,6 +88,8 @@ private slots:
     void on_actionMerge_triggered();
     void on_actionAddReference_triggered();
     void on_actionDeleteReference_triggered();
+    void on_actionAddImage_triggered();
+    void on_actionDeleteImage_triggered();
     void on_actionSettings_triggered();
     void on_actionAutoScroll_triggered();
 };

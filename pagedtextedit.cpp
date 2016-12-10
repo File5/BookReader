@@ -106,7 +106,14 @@ void PagedTextEdit::createImage(int pos, QString filename)
     );
     QTextCursor cursor = textCursor();
     cursor.setPosition(pos);
-    cursor.insertFragment(fragment);
+    cursor.insertHtml(QString("<img src='") + filename + QString("'>"));
+    //cursor.insertFragment(fragment);
+}
+
+void PagedTextEdit::deleteSelectedText()
+{
+    QTextCursor cursor = textCursor();
+    cursor.removeSelectedText();
 }
 
 void PagedTextEdit::setEditingMode(bool editingEnabled)

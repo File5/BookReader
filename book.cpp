@@ -148,7 +148,7 @@ void Book::deleteReference(int chapterIndex, int pos, int len)
     int pos2 = pos + len;
     for (int i = 0; i < referenses->size(); i++) {
         Reference ref = referenses->at(i);
-        if (ref.bookmark.chapterIndex == chapterIndex && pos < ref.bookmark.pos && ref.bookmark.pos < pos2) {
+        if (ref.bookmark.chapterIndex == chapterIndex && pos <= ref.bookmark.pos && ref.bookmark.pos <= pos2) {
             referenses->removeAt(i);
             return;
         }
@@ -175,7 +175,7 @@ void Book::deleteImage(int chapterIndex, int pos, int len)
     int pos2 = pos + len;
     for (int i = 0; i < images->size(); i++) {
         Image image = images->at(i);
-        if (image.bookmark.chapterIndex == chapterIndex && pos < image.bookmark.pos && image.bookmark.pos < pos2) {
+        if (image.bookmark.chapterIndex == chapterIndex && pos <= image.bookmark.pos && image.bookmark.pos <= pos2) {
             referenses->removeAt(i);
             return;
         }

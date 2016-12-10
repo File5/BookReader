@@ -25,6 +25,7 @@ public:
     void setSelectedAsNormalText();
 
     void createImage(int pos, QString filename);
+    void deleteSelectedText();
 
 public slots:
     void setEditingMode(bool editingEnabled);

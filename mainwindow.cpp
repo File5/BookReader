@@ -26,11 +26,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuEdit->setEnabled(editingMode);
     bookView = new PagedTextEdit(this);
     timer = new QTimer(this);
+    statusBarLabel = new QLabel(ui->statusBar);
+    ui->statusBar->addWidget(statusBarLabel);
     initSettings();
 
     connect(bookView, &PagedTextEdit::pageChanged, this, &MainWindow::displayPageNumber);
     connect(bookView, &PagedTextEdit::referenceClicked, this, &MainWindow::showReference);
     connect(timer, &QTimer::timeout, this, &MainWindow::on_nextButton_clicked);
+    connect(bookView, &PagedTextEdit::cursorPositionChanged, this, &MainWindow::showPosInStatusBar);
     ui->mainLayout->replaceWidget(ui->bookView, bookView);
     ui->bookView->hide();
     bookView->setFont(currentFont);
@@ -40,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete statusBarLabel;
     delete timer;
     delete currentBook;
     delete bookView;
@@ -219,7 +223,8 @@ void MainWindow::selectChapter(int index, bool save)
 void MainWindow::saveChapterText()
 {
     if (currentBook) {
-        currentBook->setChapterText(currentChapterIndex, bookView->toPlainText());
+        QString text = bookView->toPlainText();
+        currentBook->setChapterText(currentChapterIndex, text);
     }
 }
 
@@ -237,6 +242,12 @@ void MainWindow::showReference(QString href)
 void MainWindow::loadSettings()
 {
     smanager.readSettings();
+}
+
+void MainWindow::showPosInStatusBar()
+{
+    int pos = bookView->textCursor().position();
+    statusBarLabel->setText(QString::number(pos));
 }
 
 void MainWindow::on_actionBookInfo_triggered()
@@ -508,6 +519,23 @@ void MainWindow::on_actionDeleteReference_triggered()
     Selection textSelection = bookView->getSelection();
     currentBook->deleteReference(currentChapterIndex, textSelection.pos, textSelection.len);
     bookView->setSelectedAsNormalText();
+}
+
+void MainWindow::on_actionAddImage_triggered()
+{
+    QDir directory;
+    QString filename = QFileDialog::getOpenFileName(this);
+    filename = directory.relativeFilePath(filename);
+    int pos = bookView->getCurrentPos();
+    bookView->createImage(pos, filename);
+    currentBook->addImage(Image(Bookmark(currentChapterIndex, pos), filename.toStdString()));
+}
+
+void MainWindow::on_actionDeleteImage_triggered()
+{
+    Selection textSelection = bookView->getSelection();
+    currentBook->deleteImage(currentChapterIndex, textSelection.pos, textSelection.len);
+    bookView->deleteSelectedText();
 }
 
 void MainWindow::on_actionSettings_triggered()

@@ -297,6 +297,7 @@
     <addaction name="actionSettings"/>
     <addaction name="actionAutoScroll"/>
     <addaction name="actionLibrary"/>
+    <addaction name="actionComments"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -436,7 +437,12 @@
   </action>
   <action name="actionLibrary">
    <property name="text">
-    <string>&amp;Библеотека</string>
+    <string>&amp;Библиотека</string>
+   </property>
+  </action>
+  <action name="actionComments">
+   <property name="text">
+    <string>&amp;Комментарии</string>
    </property>
   </action>
  </widget>

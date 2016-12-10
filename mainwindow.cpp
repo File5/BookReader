@@ -9,6 +9,7 @@
 #include "settingsdialog.h"
 #include "autoscrolldialog.h"
 #include "librarydialog.h"
+#include "bookmarkdialog.h"
 
 #include <QDebug>
 
@@ -606,5 +607,19 @@ void MainWindow::on_actionLibrary_triggered()
     dialog->setBookCovers(bookCovers);
 
     int result = dialog->exec();
+    delete dialog;
+}
+
+void MainWindow::on_actionComments_triggered()
+{
+    BookmarkDialog *dialog = new BookmarkDialog(this);
+    dialog->setComments(currentBook->getAllComments());
+
+    int result = dialog->exec();
+    Comment comment = dialog->getSelectedComment();
+    if (result == QDialog::Accepted) {
+        goToBookmark(comment.bookmark);
+    }
+
     delete dialog;
 }

@@ -126,6 +126,38 @@ void MainWindow::initSettings()
         on_actionCreationMode_triggered();
     }
     currentFont.setPointSize(settings.fontSize);
+    currentFont.setBold(settings.bold);
+    currentFont.setItalic(settings.italic);
+    bookView->setTextColor(
+        QColor(settings.fontRed, settings.fontGreen, settings.fontBlue)
+    );
+
+    Qt::Alignment alignment;
+    switch (settings.alignment) {
+    case 0:
+        alignment = Qt::AlignLeft;
+        break;
+
+    case 1:
+        alignment = Qt::AlignCenter;
+        break;
+
+    case 2:
+        alignment = Qt::AlignRight;
+        break;
+
+    case 3:
+        alignment = Qt::AlignJustify;
+        break;
+
+    default:
+        alignment = Qt::AlignLeft;
+        break;
+    }
+    bookView->setAlignment(alignment);
+    bookView->setStyleSheet(
+        QString("text-align: ") + QString::number(settings.lineInterval) + QString("%;")
+    );
 }
 
 void MainWindow::saveBook(QString filename)

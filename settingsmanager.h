@@ -4,9 +4,18 @@
 #include <QString>
 
 struct Settings {
+    enum Align { LEFT, CENTER, RIGHT, JUSTIFY };
+
     bool startWithLastPos;
     bool startWithEditingMode;
     int fontSize;
+    int fontRed;
+    int fontGreen;
+    int fontBlue;
+    bool bold;
+    bool italic;
+    int lineInterval;
+    int alignment;
 
     Settings() {
         startWithLastPos = true;

@@ -25,7 +25,14 @@ void SettingsManager::readSettings()
     ifstream fin(filename.toStdString().c_str());
     fin >> currentSettings.startWithLastPos >>
            currentSettings.startWithEditingMode >>
-           currentSettings.fontSize;
+           currentSettings.fontSize >>
+           currentSettings.fontRed >>
+           currentSettings.fontGreen >>
+           currentSettings.fontBlue >>
+           currentSettings.bold >>
+           currentSettings.italic >>
+           currentSettings.lineInterval >>
+           currentSettings.alignment;
     fin.close();
 }
 
@@ -40,6 +47,13 @@ void SettingsManager::writeSettings()
     ofstream fout(filename.toStdString().c_str());
     fout << currentSettings.startWithLastPos << " " <<
             currentSettings.startWithEditingMode << " " <<
-            currentSettings.fontSize;
+            currentSettings.fontSize << " " <<
+            currentSettings.fontRed << " " <<
+            currentSettings.fontGreen << " " <<
+            currentSettings.fontBlue << " " <<
+            currentSettings.bold << " " <<
+            currentSettings.italic << " " <<
+            currentSettings.lineInterval << " " <<
+            currentSettings.alignment;
     fout.close();
 }

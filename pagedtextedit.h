@@ -12,6 +12,7 @@ class PagedTextEdit : public QTextEdit
 
 public:
     PagedTextEdit(QWidget *parent = Q_NULLPTR);
+
     int getPage();
     void setPage(int page);
     int getLastPage();
@@ -35,6 +36,8 @@ public slots:
     void selectText(int pos1, int len);
     Selection getSelection();
     void deselectText();
+
+    void setTextColor(const QColor &c);
 
 signals:
     void pageChanged(int currentPage, int lastPage);

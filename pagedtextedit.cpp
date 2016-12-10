@@ -185,6 +185,13 @@ void PagedTextEdit::deselectText()
     setTextCursor(cursor);
 }
 
+void PagedTextEdit::setTextColor(const QColor &c)
+{
+    QTextEdit::setTextColor(c);
+
+    defaultCharFormat.setForeground(QBrush(c));
+}
+
 void PagedTextEdit::resizeEvent(QResizeEvent *event)
 {
     QTextEdit::resizeEvent(event);

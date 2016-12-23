@@ -361,6 +361,8 @@ void MainWindow::on_addBookmarkButton_clicked()
 void MainWindow::on_removeBookmarkButton_clicked()
 {
     int selectedIndex = ui->bookmarkList->currentRow();
+    if (selectedIndex < 0) return;
+
     currentBook->deleteBookmark(selectedIndex);
     displayBookmarkList();
 }

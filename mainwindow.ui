@@ -48,6 +48,9 @@
               <height>13</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Текущая страница</string>
+            </property>
             <property name="text">
              <string>Страница: 1/999</string>
             </property>
@@ -76,6 +79,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Перейти на выбранную страницу</string>
             </property>
             <property name="text">
              <string>Перейти</string>
@@ -110,6 +116,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Предыдущая страница</string>
+            </property>
             <property name="text">
              <string>&lt;-</string>
             </property>
@@ -122,6 +131,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Следующая страница</string>
             </property>
             <property name="text">
              <string>-&gt;</string>
@@ -149,6 +161,9 @@
        <layout class="QVBoxLayout" name="contentLayout">
         <item>
          <widget class="QLabel" name="label_2">
+          <property name="toolTip">
+           <string>Список глав</string>
+          </property>
           <property name="text">
            <string>Содержание</string>
           </property>
@@ -168,6 +183,9 @@
          <layout class="QHBoxLayout" name="bookmarkControlLayout">
           <item>
            <widget class="QLabel" name="label">
+            <property name="toolTip">
+             <string>Список закладок</string>
+            </property>
             <property name="text">
              <string>Закладки</string>
             </property>
@@ -175,6 +193,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="addBookmarkButton">
+            <property name="toolTip">
+             <string>Добавить закладку</string>
+            </property>
             <property name="text">
              <string>Добавить</string>
             </property>
@@ -182,6 +203,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="removeBookmarkButton">
+            <property name="toolTip">
+             <string>Удалить выбранную закладку</string>
+            </property>
             <property name="text">
              <string>Удалить</string>
             </property>
@@ -227,6 +251,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Поиск по тексту книги</string>
+          </property>
           <property name="text">
            <string>Найти</string>
           </property>
@@ -246,6 +273,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Перейти к предыдущему результату</string>
+          </property>
           <property name="text">
            <string>&lt;-</string>
           </property>
@@ -264,6 +294,9 @@
             <width>25</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Перейти к следующему результату</string>
           </property>
           <property name="text">
            <string>-&gt;</string>

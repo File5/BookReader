@@ -339,15 +339,24 @@
    <property name="text">
     <string>&amp;Создать</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionOpen">
    <property name="text">
     <string>&amp;Открыть</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>&amp;Выход</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionLoadFromFile">
@@ -358,6 +367,9 @@
   <action name="actionBookInfo">
    <property name="text">
     <string>&amp;Информация о книге</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
   <action name="actionCreationMode">
@@ -389,6 +401,9 @@
    <property name="text">
     <string>&amp;Сохранить</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionLoadChapters">
    <property name="text">
@@ -409,10 +424,16 @@
    <property name="text">
     <string>&amp;Настройки</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
   </action>
   <action name="actionAutoScroll">
    <property name="text">
     <string>&amp;Автоматически листать страницы</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
   <action name="actionAddImage">
@@ -439,10 +460,16 @@
    <property name="text">
     <string>&amp;Библиотека</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
   <action name="actionComments">
    <property name="text">
     <string>&amp;Комментарии</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>

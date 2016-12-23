@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QDesktopServices>
 #include "bookinfodialog.h"
 #include "loadchaptersdialog.h"
 #include "addreferencedialog.h"
@@ -656,4 +657,9 @@ void MainWindow::on_actionComments_triggered()
     }
 
     delete dialog;
+}
+
+void MainWindow::on_actionHelp_triggered()
+{
+    QDesktopServices::openUrl(QUrl("help.html"));
 }
